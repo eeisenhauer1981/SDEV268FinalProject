@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "Final Project_6b4a880b"
+    },
+    {
+      "type": "java",
+      "name": "Run EmployeeGUI",
+      "request": "launch",
+      "mainClass": "EmployeeGUI",
+      "vmArgs": "--module-path C:/javafx-sdk-21.0.10/lib --add-modules javafx.controls"
+    }
+  ]
+}
