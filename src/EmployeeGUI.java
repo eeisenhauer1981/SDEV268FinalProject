@@ -1,3 +1,4 @@
+/*
 import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,10 +12,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
 
-public class EmployeeGUI extends Application {
+public class EmployeeGUI {
 
-    @Override
-    public void start(Stage stage) {
+    public ScrollPane getView() {
         Label firstNameLabel = new Label("First Name:");
         TextField firstNameField = new TextField();
 
@@ -169,9 +169,7 @@ public class EmployeeGUI extends Application {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(layout);
         scrollPane.setFitToWidth(true);
-        Scene scene = new Scene(scrollPane, 400, 500);
-        stage.setScene(scene);
-        stage.setTitle("Employee Input");
-        stage.show();
+        return scrollPane;
     }
 }
+    */
