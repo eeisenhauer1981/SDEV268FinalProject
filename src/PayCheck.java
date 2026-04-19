@@ -1,5 +1,5 @@
 public class PayCheck {
-    int checkNumber;
+    private int checkNumber;
     private double dependentStipend;
     private double stateTax;
     private double federalTax;
@@ -9,41 +9,65 @@ public class PayCheck {
     private double grossPay;
     private double preTaxPay;
     private double netPay;
+    private Employee payTo;
+
+    public PayCheck(Employee employee, int checkCount) {
+        payTo = employee;
+    }
+
+    public void calculatePayCheck() {
+        checkNumber = marshmallowHaven.getCheckCount();
+        dependentStipend = calculateDependentStipend(payTo);
+        medicalDeduction = calculateMedicalDeduction(payTo);
+        if(payTo.getPayType() == "Hourly") {
+            grossPay = calculateHourlyWorkPay(payTo) + dependentStipend;
+        }
+        else {
+            grossPay = calculateSalaryWorkPay(payTo) + dependentStipend;
+        }
+        preTaxPay = grossPay - medicalDeduction;
+        stateTax = calculateStateTax(preTaxPay);
+        federalTax = calculateFederalTax(preTaxPay);
+        socialSecurity = calculateSocialSecurity(preTaxPay);
+        medicare = calculateMedicare(preTaxPay);
+        double taxes = stateTax + federalTax + socialSecurity + medicare;
+        netPay = grossPay - medicalDeduction - taxes;
+    }
     
     //calculate dependent stipend
-    public double calculateDependentStipend(int dependents) {
+    public double calculateDependentStipend(Employee payTo) {
         final double DEPENDENT_STIPEND_RATE = 45.0;
-        return DEPENDENT_STIPEND_RATE * dependents;
+        return DEPENDENT_STIPEND_RATE * payTo.getDependents();
     }
 
     //calculate deductions
-    public double calculatetateTax(double preTaxPay) {
+    public double calculateStateTax(double preTaxPay) {
         final double STATE_TAX_RATE = .0315;
 
         return STATE_TAX_RATE * preTaxPay;
     }
 
-    public double federalTax(double preTaxPay) {
+    public double calculateFederalTax(double preTaxPay) {
         final double FEDERAL_TAX_RATE = .0765;
 
         return FEDERAL_TAX_RATE * preTaxPay;
     }
 
-    public double socialSecurity(double preTaxPay) {
+    public double calculateSocialSecurity(double preTaxPay) {
         final double SOCIAL_SECURITY_RATE = .062;
 
         return SOCIAL_SECURITY_RATE * preTaxPay;
     }
 
-    public double medicare(double preTaxPay) {
+    public double calculateMedicare(double preTaxPay) {
         final double MEDICARE_RATE = .0145;
 
         return MEDICARE_RATE * preTaxPay;
     }
 
-    public double medicalDeduction(String medCoverageType) {
+    public double calculateMedicalDeduction(Employee payTo) {
         
-        if (medCoverageType == "Single") {
+        if (payTo.getMedicalCoverageType() == "Single") {
             return 50.0;
         } 
         else {
@@ -52,49 +76,43 @@ public class PayCheck {
     }
 
     //calculate hourly pay
-    public double hourlyWorkPay(double basePay, double hoursWorked) {
+    public double calculateHourlyWorkPay(Employee payTo) {
         final double MAX_REGULAR_HOURS = 40;
+        double weeklyHours = payTo.getHoursWorked();
+        double payRate = payTo.getBasePay();
 
-        if(hoursWorked <= MAX_REGULAR_HOURS) {
-            return basePay * hoursWorked;
+        if(weeklyHours <= MAX_REGULAR_HOURS) {
+            return payRate * weeklyHours;
         }
         else {
-            double straightPay = basePay * hoursWorked;
-            double overtimePay = overtimePay(hoursWorked, basePay);
+            double straightPay = payRate * weeklyHours;
+            double overtimePay = calculateOvertimePay(weeklyHours, payRate);
             return straightPay + overtimePay;
         }
     }
 
-    public double overtimePay(double hoursWorked, double hourlyRate) {
+    public double calculateOvertimePay(double weeklyHours, double payRate) {
         final double MAX_REGULAR_HOURS = 40;
         final double OVERTIME_RATE = .5;
-        double overtimeHours = hoursWorked - MAX_REGULAR_HOURS;
-        return overtimeHours * hourlyRate * OVERTIME_RATE;
-    }
-
-    public double hourlyNetPay(double basePay, double hoursWorked, int dependents, String medicalCoverageType) {
-        double grossPay = hourlyWorkPay(basePay, hoursWorked) + dependentStipend(dependents);
-        double preTaxPay = grossPay - medicalDeduction(medicalCoverageType);
-        return preTaxPay - stateTax(preTaxPay) - federalTax(preTaxPay) - socialSecurity(preTaxPay) - medicare(preTaxPay);
+        double overtimeHours = weeklyHours - MAX_REGULAR_HOURS;
+        return overtimeHours * payRate * OVERTIME_RATE;
     }
 
     //calculate salary pay
-    public double salaryWorkPay(double basePay, int PTODays){
-        if(PTODays == 0) {
-            return basePay / 52;
+    public double calculateSalaryWorkPay(Employee payTo){
+        int weeklyPTODays = payTo.getPTODays();
+        double payRate = payTo.getBasePay();
+
+        if(weeklyPTODays == 0) {
+            return payRate / 52;
         }
         else {
-            double dailyPay = basePay / 52 / 5;
-            double PTOPay = dailyPay * PTODays;
-            int workDays = 5 - PTODays;
+            double dailyPay = payRate / 52 / 5;
+            double PTOPay = dailyPay * weeklyPTODays;
+            int workDays = 5 - weeklyPTODays;
             double workDayPay = dailyPay * workDays;
             return workDayPay + PTOPay;
         }
     }
 
-    public double salaryNetPay(double basePay, int PTODays, int dependents, String medicalCoverageType) {
-        double grossPay = salaryWorkPay(basePay, PTODays) + dependentStipend(dependents);
-        double preTaxPay = grossPay - medicalDeduction(medicalCoverageType);
-        return preTaxPay - stateTax(preTaxPay) - federalTax(preTaxPay) - socialSecurity(preTaxPay) - medicare(preTaxPay);
-    }
 }  

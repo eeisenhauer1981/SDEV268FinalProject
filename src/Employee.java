@@ -165,6 +165,9 @@ public class Employee {
 
     public String getMedicalCoverageType() {return this.medicalCoverageType;}
 
+    //TO ADD: getHoursWorked function
+    //TO ADD: get PTODays function
+
     //display functions
     public void printEmployeeInfo() {
         System.out.println("Name: " + firstName + " " + middleName + " " + lastName + " " + suffix);
