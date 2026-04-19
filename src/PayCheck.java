@@ -1,13 +1,23 @@
-public class PayCalculator {
+public class PayCheck {
+    int checkNumber;
+    private double dependentStipend;
+    private double stateTax;
+    private double federalTax;
+    private double socialSecurity;
+    private double medicare;
+    private double medicalDeduction;
+    private double grossPay;
+    private double preTaxPay;
+    private double netPay;
     
     //calculate dependent stipend
-    public double dependentStipend(int dependents) {
+    public double calculateDependentStipend(int dependents) {
         final double DEPENDENT_STIPEND_RATE = 45.0;
         return DEPENDENT_STIPEND_RATE * dependents;
     }
 
     //calculate deductions
-    public double stateTax(double preTaxPay) {
+    public double calculatetateTax(double preTaxPay) {
         final double STATE_TAX_RATE = .0315;
 
         return STATE_TAX_RATE * preTaxPay;
