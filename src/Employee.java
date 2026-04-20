@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Employee {
     private String firstName;
@@ -20,6 +21,8 @@ public class Employee {
     private String zip;
     private int dependents;
     private String medicalCoverageType;
+    private ArrayList<TimeEntry> timeClock = new ArrayList();
+    private ArrayList<PTOEntry> PTOList = new ArrayList();
         
     //default constructor
     public Employee() {
