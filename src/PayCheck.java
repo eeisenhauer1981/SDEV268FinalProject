@@ -13,10 +13,10 @@ public class PayCheck {
 
     public PayCheck(Employee employee, int checkCount) {
         payTo = employee;
+        checkNumber = checkCount;
     }
 
     public void calculatePayCheck() {
-        checkNumber = marshmallowHaven.getCheckCount();
         dependentStipend = calculateDependentStipend(payTo);
         medicalDeduction = calculateMedicalDeduction(payTo);
         if(payTo.getPayType() == "Hourly") {
@@ -113,6 +113,20 @@ public class PayCheck {
             double workDayPay = dailyPay * workDays;
             return workDayPay + PTOPay;
         }
+    }
+
+    //print paycheck info
+    public void printPaycheck(){
+        System.out.println("Check Number: " + checkNumber);
+        payTo.printEmployeeInfo();
+        System.out.println("Dependent Stipend: " + dependentStipend);
+        System.out.println("Medical Deduction: " + medicalDeduction);
+        System.out.println("State Tax: " + stateTax);
+        System.out.println("Federal Tax: " + federalTax);
+        System.out.println("Social Security: " + socialSecurity);
+        System.out.println("Medicare: " + medicare);
+        System.out.println("Gross Pay: " + grossPay);
+        System.out.println("Net Pay: " + netPay);
     }
 
 }  

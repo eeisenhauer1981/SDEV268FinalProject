@@ -1,21 +1,18 @@
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class TimeEntry {
-    private LocalDate workDate;
-    private int dailyHours;
 
-    public TimeEntry(LocalDate date, int hours) {
-        workDate = date;
-        dailyHours = hours;
-    }
+    //temp for testing
+    public static double tempHoursWorked() {
+        Scanner scanner = new Scanner(System.in);
 
-    //setters for editing
-    public void setWorkDate(LocalDate newDate) {
-        workDate = newDate;
-    }
+        System.out.println("How many hours? ");
+        double hoursWorked = scanner.nextDouble();
+        
+        scanner.close();
 
-    public void setDailyHours(int newHours) {
-        dailyHours = newHours;
+        return hoursWorked;
+
     }
     
 }

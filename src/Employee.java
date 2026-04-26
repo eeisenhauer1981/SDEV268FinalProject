@@ -168,8 +168,12 @@ public class Employee {
 
     public String getMedicalCoverageType() {return this.medicalCoverageType;}
 
-    //TO ADD: getHoursWorked function
-    //TO ADD: get PTODays function
+    public Double getHoursWorked() { 
+        return TimeEntry.tempHoursWorked();
+    }
+    public int getPTODays() { 
+        return PTOEntry.tempPTO();
+    }
 
     //display functions
     public void printEmployeeInfo() {
