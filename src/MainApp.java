@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class MainApp /*extends Application*/ {
 
@@ -31,12 +32,18 @@ public class MainApp /*extends Application*/ {
 
     public static void main(String[] args) {
         //launch(args);
+
+        //temp scanner until GUI is added
+        Scanner scanner = new Scanner(System.in);
         
         Company marshmallowHaven = new Company("Marshmallow Haven");
-        marshmallowHaven.loadEmployeeData();
+        marshmallowHaven.loadEmployeeData(scanner);
         System.out.println("Next Employee Number: " + marshmallowHaven.employeeNumber);
-        marshmallowHaven.loadEmployeeData();
-        System.out.println("Next Employee Number: " + marshmallowHaven.employeeNumber);
+        marshmallowHaven.editEmployeeData(scanner);
+        System.out.println("Done editing");
         marshmallowHaven.printEmployees();
+        
+
+        scanner.close();
     }
 }
