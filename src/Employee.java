@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Employee {
+    private int employeeID;
     private String firstName;
     private String middleName;
     private String lastName; 
@@ -26,6 +27,7 @@ public class Employee {
         
     //default constructor
     public Employee() {
+        this.employeeID = 0;
         this.firstName = "";
         this.middleName = "";
         this.lastName = "";        
@@ -48,46 +50,48 @@ public class Employee {
     }
 
     //constructor with parameters
-    public Employee (
-        String firstName,
-        String middleName,
-        String lastName,
-        String suffix,
-        String department,
-        String jobTitle,
-        boolean active,
-        LocalDate hireDate,
-        String payType,
-        double basePay,
-        LocalDate dateOfBirth,
-        String gender,
-        String address1,
-        String address2,
-        String city,
-        String state,
-        String zip,
-        int dependents,
-        String medicalCoverageType
+    public Employee(
+        int employeeCount,
+        String newFirstName,
+        String newMiddleName,
+        String newLastName,
+        String newSuffix,
+        String newDepartment,
+        String newJobTitle,
+        boolean newActive,
+        LocalDate newHireDate,
+        String newPayType,
+        double newBasePay,
+        LocalDate newBirthDate,
+        String newGender,
+        String newAddress1,
+        String newAddress2,
+        String newCity,
+        String newState,
+        String newZip,
+        int newDependents,
+        String newMedicalCoverage
     ) {
-            this.firstName = firstName;
-            this.middleName = middleName;
-            this.lastName = lastName;
-            this.suffix = suffix;
-            this.department = department;
-            this.jobTitle = jobTitle;
-            this.active = active;
-            this.hireDate = hireDate;
-            this.payType = payType;
-            this.basePay = basePay;
-            this.dateOfBirth = dateOfBirth;
-            this.gender = gender;
-            this.address1 = address1;
-            this.address2 = address2;
-            this.city = city;
-            this.state = state;
-            this.zip = zip;
-            this.dependents = dependents;
-            this.medicalCoverageType = medicalCoverageType;       
+            this.employeeID = employeeCount;
+            this.firstName = newFirstName;
+            this.middleName = newMiddleName;
+            this.lastName = newLastName;
+            this.suffix = newSuffix;
+            this.department = newDepartment;
+            this.jobTitle = newJobTitle;
+            this.active = newActive;
+            this.hireDate = newHireDate;
+            this.payType = newPayType;
+            this.basePay = newBasePay;
+            this.dateOfBirth = newBirthDate;
+            this.gender = newGender;
+            this.address1 = newAddress1;
+            this.address2 = newAddress2;
+            this.city = newCity;
+            this.state = newState;
+            this.zip = newZip;
+            this.dependents = newDependents;
+            this.medicalCoverageType = newMedicalCoverage;       
     }
 
     //setter functions
@@ -130,6 +134,8 @@ public class Employee {
     public void setMedicalCoverageType(String medicalCoverageType) {this.medicalCoverageType = medicalCoverageType;}
 
     //getter functions 
+    public int getEmployeeID() {return employeeID;}
+    
     public String getFirstName() {return this.firstName;}
 
     public String getMiddleName() {return this.middleName;}
@@ -177,6 +183,7 @@ public class Employee {
 
     //display functions
     public void printEmployeeInfo() {
+        System.out.println("Employee ID: " + employeeID);
         System.out.println("Name: " + firstName + " " + middleName + " " + lastName + " " + suffix);
         System.out.println("Department: " + department);
         System.out.println("Job Title: " + jobTitle);
@@ -203,5 +210,6 @@ public class Employee {
         System.out.println(city + ", " + state + " " + zip);
         System.out.println("Dependents: " + dependents);
         System.out.println("Medical Coverage: " + medicalCoverageType);
+        System.out.println();
     }
 }

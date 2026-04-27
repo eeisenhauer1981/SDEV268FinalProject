@@ -10,10 +10,13 @@ public class PayCheck {
     private double preTaxPay;
     private double netPay;
     private Employee payTo;
+    private Company currentCompany;
 
-    public PayCheck(Employee employee, int checkCount) {
+    public PayCheck(Employee employee, Company company) {
         payTo = employee;
-        checkNumber = checkCount;
+        currentCompany = company;
+        checkNumber = company.increaseCheckNumber();
+        calculatePayCheck();        
     }
 
     public void calculatePayCheck() {
@@ -75,7 +78,7 @@ public class PayCheck {
         }
     }
 
-    //calculate hourly pay
+    //calculate work pay for hourly
     public double calculateHourlyWorkPay(Employee payTo) {
         final double MAX_REGULAR_HOURS = 40;
         double weeklyHours = payTo.getHoursWorked();
@@ -98,7 +101,7 @@ public class PayCheck {
         return overtimeHours * payRate * OVERTIME_RATE;
     }
 
-    //calculate salary pay
+    //calculate work pay for salary
     public double calculateSalaryWorkPay(Employee payTo){
         int weeklyPTODays = payTo.getPTODays();
         double payRate = payTo.getBasePay();

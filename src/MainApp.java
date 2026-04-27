@@ -31,11 +31,12 @@ public class MainApp /*extends Application*/ {
 
     public static void main(String[] args) {
         //launch(args);
-        Employee newEmployee = new Employee ("First", "M", "Last", "", "DIS", "JobTitle", true, LocalDate.of(2026, 4, 20), "Hourly", 23.56, LocalDate.of(1981, 2, 12), "F", "123 Main St", "", "Fort Wayne", "IN", "46804", 2, "Family");
-        newEmployee.printEmployeeInfo();
-
-        PayCheck newPayCheck = new PayCheck(newEmployee, 1);
-        newPayCheck.calculatePayCheck();
-        newPayCheck.printPaycheck();
+        
+        Company marshmallowHaven = new Company("Marshmallow Haven");
+        marshmallowHaven.loadEmployeeData();
+        System.out.println("Next Employee Number: " + marshmallowHaven.employeeNumber);
+        marshmallowHaven.loadEmployeeData();
+        System.out.println("Next Employee Number: " + marshmallowHaven.employeeNumber);
+        marshmallowHaven.printEmployees();
     }
 }
