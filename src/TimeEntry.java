@@ -1,18 +1,14 @@
-import java.util.Scanner;
+import java.time.LocalDate;
 
 public class TimeEntry {
+    private LocalDate timeEntryDate;
+    private Double hoursWorked;
 
-    //temp for testing
-    public static double tempHoursWorked() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("How many hours? ");
-        double hoursWorked = scanner.nextDouble();
-        
-        scanner.close();
-
-        return hoursWorked;
-
+    public boolean validDate(LocalDate entryDate){
+        if(entryDate >= )
     }
-    
+
+
+
 }
+    

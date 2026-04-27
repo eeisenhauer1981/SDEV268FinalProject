@@ -35,14 +35,8 @@ public class MainApp /*extends Application*/ {
 
         //temp scanner until GUI is added
         Scanner scanner = new Scanner(System.in);
-        
-        Company marshmallowHaven = new Company("Marshmallow Haven");
-        marshmallowHaven.loadEmployeeData(scanner);
-        System.out.println("Next Employee Number: " + marshmallowHaven.employeeNumber);
-        marshmallowHaven.editEmployeeData(scanner);
-        System.out.println("Done editing");
-        marshmallowHaven.printEmployees();
-        
+        Company company = new Company("Marshmallow Haven");
+        Dates dates = new Dates();
 
         scanner.close();
     }
