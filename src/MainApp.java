@@ -38,19 +38,15 @@ public class MainApp /*extends Application*/ {
         Company company = new Company("Marshmallow Haven");
         Dates dates = new Dates();
 
-        System.out.println("Enter date as YYYY-MM-dd");
-        String dateString = scanner.nextLine();
-        LocalDate payPeriodDate = LocalDate.parse(dateString);
-        dates.setPayPeriod(payPeriodDate);
-        System.out.println(dates.getPayPeriod());
+        String dateString = "2026-04-03";
+        LocalDate testHireDate = LocalDate.parse(dateString);
+        dateString = "1999-02-02";
+        LocalDate testBirthDate = LocalDate.parse(dateString);
 
-        /*
-        company.loadEmployeeData(scanner);
-        Employee testEmployee = company.employees.get(1);
+        Employee testEmployee = new Employee(1, "First", "M", "Last", "Suff", "MGMT", "Job", true, testHireDate, "Hourly", 55.55, testBirthDate, "Female", "111 Street", "", "Fort Wayne", "IN", "46804", 3, "Family");
         testEmployee.newTimePunch(scanner, dates);
         testEmployee.newTimePunch(scanner, dates);
-        testEmployee.printTimeRecords();
-        */
+        System.out.println("Total Hours: " + testEmployee.getHoursWorked(dates));
 
         scanner.close();
     }

@@ -1,5 +1,8 @@
+import java.time.LocalDate;
+
 public class PayCheck {
     private int checkNumber;
+    private LocalDate checkDate;
     private double dependentStipend;
     private double stateTax;
     private double federalTax;
@@ -12,21 +15,22 @@ public class PayCheck {
     private Employee payTo;
     private Company currentCompany;
 
-    public PayCheck(Employee employee, Company company) {
+    public PayCheck(Employee employee, Company company, Dates dates) {
         payTo = employee;
         currentCompany = company;
         checkNumber = company.increaseCheckNumber();
-        calculatePayCheck();        
+        checkDate = dates.getCurrentPayDate();
+        calculatePayCheck(dates);        
     }
 
-    public void calculatePayCheck() {
+    public void calculatePayCheck(Dates dates) {
         dependentStipend = calculateDependentStipend(payTo);
         medicalDeduction = calculateMedicalDeduction(payTo);
         if(payTo.getPayType() == "Hourly") {
-            grossPay = calculateHourlyWorkPay(payTo) + dependentStipend;
+            grossPay = calculateHourlyWorkPay(payTo, dates) + dependentStipend;
         }
         else {
-            grossPay = calculateSalaryWorkPay(payTo) + dependentStipend;
+            grossPay = calculateSalaryWorkPay(payTo, dates) + dependentStipend;
         }
         preTaxPay = grossPay - medicalDeduction;
         stateTax = calculateStateTax(preTaxPay);
@@ -79,9 +83,9 @@ public class PayCheck {
     }
 
     //calculate work pay for hourly
-    public double calculateHourlyWorkPay(Employee payTo) {
+    public double calculateHourlyWorkPay(Employee payTo, Dates dates) {
         final double MAX_REGULAR_HOURS = 40;
-        double weeklyHours = payTo.getHoursWorked();
+        double weeklyHours = payTo.getHoursWorked(dates);
         double payRate = payTo.getBasePay();
 
         if(weeklyHours <= MAX_REGULAR_HOURS) {
@@ -102,8 +106,8 @@ public class PayCheck {
     }
 
     //calculate work pay for salary
-    public double calculateSalaryWorkPay(Employee payTo){
-        int weeklyPTODays = payTo.getPTODays();
+    public double calculateSalaryWorkPay(Employee payTo, Dates dates){
+        int weeklyPTODays = payTo.getPTODays(dates);
         double payRate = payTo.getBasePay();
 
         if(weeklyPTODays == 0) {
@@ -121,6 +125,7 @@ public class PayCheck {
     //print paycheck info
     public void printPaycheck(){
         System.out.println("Check Number: " + checkNumber);
+        System.out.println("Pay Date: " + checkDate);
         payTo.printEmployeeInfo();
         System.out.println("Dependent Stipend: " + dependentStipend);
         System.out.println("Medical Deduction: " + medicalDeduction);

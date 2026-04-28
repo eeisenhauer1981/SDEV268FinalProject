@@ -184,12 +184,10 @@ public class Company {
         }
         
     }
-
     
-    public void editTimeClock(Scanner scanner) {
+    public void editTimeClock(Scanner scanner, Dates dates) {
         Employee editEmployee = employeeSearch(scanner);
-        
-        editEmployee.setTimeEntry(null, checkNumber);
+        editEmployee.editTimePunch(scanner, dates);
     }
 
     public Employee employeeSearch(Scanner scanner /*temp scanner until GUI*/) {

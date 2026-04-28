@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Employee {
     private int employeeID;
@@ -23,8 +24,8 @@ public class Employee {
     private String zip;
     private int dependents;
     private String medicalCoverageType;
-    private HashMap<LocalDate, TimeEntry> timeClock = new HashMap<>();
-    private HashMap<LocalDate, PTOEntry> PTOList = new HashMap();
+    private HashMap<LocalDate, Double> timeClock = new HashMap<>();
+    private HashMap<LocalDate, Integer> PTOList = new HashMap();
         
     //default constructor
     public Employee() {
@@ -134,9 +135,8 @@ public class Employee {
 
     public void setMedicalCoverageType(String medicalCoverageType) {this.medicalCoverageType = medicalCoverageType;}
 
-    public void setTimeEntry(LocalDate punchDate, double newHoursWorked) {
-        TimeEntry updatedHours = timeClock.get(punchDate);
-        updatedHours.setHoursWorked(newHoursWorked);
+    public void setTimePunch(LocalDate punchDate, Double hoursWorked) {
+        timeClock.put(punchDate, hoursWorked);
     }
 
     //getter functions 
@@ -180,10 +180,18 @@ public class Employee {
 
     public String getMedicalCoverageType() {return this.medicalCoverageType;}
 
-    /*public Double getHoursWorked() { 
-        return TimeEntry.tempHoursWorked();
-    }*/
-    public int getPTODays() { 
+    public Double getHoursWorked(Dates dates) { 
+        ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
+        System.out.println(payPeriod);
+        Double totalHours = 0.0;
+        for (int i = 0; i < 7; i++) {
+            if(timeClock.containsKey(payPeriod.get(i))){
+                totalHours = totalHours + timeClock.get(payPeriod.get(i));
+            }
+        }
+        return totalHours;
+    }
+    public int getPTODays(Dates dates) { 
         return PTOEntry.tempPTO();
     }
 
@@ -198,16 +206,37 @@ public class Employee {
             System.out.println("Enter hours worked on " + punchDate);
             Double hoursEntered = scanner.nextDouble();
             scanner.nextLine();
-            TimeEntry newTimeEntry = new TimeEntry(punchDate, hoursEntered);
-            addTimeEntry(punchDate, newTimeEntry);
+            setTimePunch(punchDate, hoursEntered);
         }
         else {
             System.out.println("That date is outside of the current pay period");
         }
     }
 
-    public void addTimeEntry(LocalDate timeEntryDate, TimeEntry newTimeEntry){
-        timeClock.put(timeEntryDate, newTimeEntry);
+    public void editTimePunch(Scanner scanner, Dates dates){
+        System.out.println("Enter date as YYYY-MM-dd");
+        String dateString = scanner.nextLine();
+        LocalDate punchDate = LocalDate.parse(dateString);
+        //for testing
+        System.out.println("You entered " + punchDate);
+        if(dates.isValidTimeEntryDate(punchDate)) {
+            System.out.println("Enter hours worked on " + punchDate);
+            Double hoursEntered = scanner.nextDouble();
+            scanner.nextLine();
+            if(timeClock.containsKey(punchDate)) {                
+                timeClock.replace(punchDate, hoursEntered);
+                System.out.println("Previous hours replaced.");
+                System.out.println("New time card entry: " + timeClock.get(punchDate));
+            }
+            else {
+                setTimePunch(punchDate, hoursEntered);
+                System.out.println("No previous entry for " + punchDate);
+                System.out.println("Time card entry added: " + timeClock.get(punchDate));
+            }
+        }
+        else {
+            System.out.println("That date can no longer be edited");
+        }
     }
 
     //display functions
@@ -243,6 +272,6 @@ public class Employee {
     }
 
     public void printTimeRecords() {
-        timeClock.forEach( (k, v) -> {v.printTimeRecord();} );
+        System.out.println(timeClock);
     }
 }

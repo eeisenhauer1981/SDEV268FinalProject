@@ -18,6 +18,7 @@ public class Dates {
         setLastPayPeriod();
         setCurrentPayPeriod();
         setCurrentPayDate();
+        setPayPeriod(LocalDate.now());
     }
 
     //setter functions
@@ -44,6 +45,10 @@ public class Dates {
     //getter functions
     public ArrayList<LocalDate> getPayPeriod() {
         return payPeriod;
+    }
+
+    public LocalDate getCurrentPayDate() {
+        return currentPayDate;
     }
 
     //date validation functions
