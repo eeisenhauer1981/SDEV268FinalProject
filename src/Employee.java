@@ -1,5 +1,6 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class Employee {
     private int employeeID;
@@ -22,8 +23,8 @@ public class Employee {
     private String zip;
     private int dependents;
     private String medicalCoverageType;
-    private ArrayList<TimeEntry> timeClock = new ArrayList();
-    private ArrayList<PTOEntry> PTOList = new ArrayList();
+    private HashMap<LocalDate, TimeEntry> timeClock = new HashMap<>();
+    private HashMap<LocalDate, PTOEntry> PTOList = new HashMap();
         
     //default constructor
     public Employee() {
@@ -133,6 +134,11 @@ public class Employee {
 
     public void setMedicalCoverageType(String medicalCoverageType) {this.medicalCoverageType = medicalCoverageType;}
 
+    public void setTimeEntry(LocalDate punchDate, double newHoursWorked) {
+        TimeEntry updatedHours = timeClock.get(punchDate);
+        updatedHours.setHoursWorked(newHoursWorked);
+    }
+
     //getter functions 
     public int getEmployeeID() {return employeeID;}
     
@@ -174,11 +180,34 @@ public class Employee {
 
     public String getMedicalCoverageType() {return this.medicalCoverageType;}
 
-    public Double getHoursWorked() { 
+    /*public Double getHoursWorked() { 
         return TimeEntry.tempHoursWorked();
-    }
+    }*/
     public int getPTODays() { 
         return PTOEntry.tempPTO();
+    }
+
+    //doing functions
+    public void newTimePunch(Scanner scanner, Dates dates){
+        System.out.println("Enter date as YYYY-MM-dd");
+        String dateString = scanner.nextLine();
+        LocalDate punchDate = LocalDate.parse(dateString);
+        //for testing
+        System.out.println("You entered " + punchDate);
+        if(dates.isValidTimeEntryDate(punchDate)) {
+            System.out.println("Enter hours worked on " + punchDate);
+            Double hoursEntered = scanner.nextDouble();
+            scanner.nextLine();
+            TimeEntry newTimeEntry = new TimeEntry(punchDate, hoursEntered);
+            addTimeEntry(punchDate, newTimeEntry);
+        }
+        else {
+            System.out.println("That date is outside of the current pay period");
+        }
+    }
+
+    public void addTimeEntry(LocalDate timeEntryDate, TimeEntry newTimeEntry){
+        timeClock.put(timeEntryDate, newTimeEntry);
     }
 
     //display functions
@@ -211,5 +240,9 @@ public class Employee {
         System.out.println("Dependents: " + dependents);
         System.out.println("Medical Coverage: " + medicalCoverageType);
         System.out.println();
+    }
+
+    public void printTimeRecords() {
+        timeClock.forEach( (k, v) -> {v.printTimeRecord();} );
     }
 }

@@ -7,6 +7,7 @@ public class Company {
     String name;
     int checkNumber;
     int employeeNumber;
+    boolean payrollProcessing;
     HashMap<Integer, Employee> employees = new HashMap<>();
     HashMap<Integer, PayCheck> paychecks = new HashMap<>();
 
@@ -15,12 +16,14 @@ public class Company {
         this.name = "New Company";
         this.checkNumber = -1;
         this.employeeNumber = -1;
+        this.payrollProcessing = false;
     }
 
     public Company(String newName){
         this.name = newName;
         this.checkNumber = 1;
         this.employeeNumber = 1;
+        this.payrollProcessing = false;
     }
 
     //setters
@@ -180,6 +183,13 @@ public class Company {
             editData = scanner.nextLine();
         }
         
+    }
+
+    
+    public void editTimeClock(Scanner scanner) {
+        Employee editEmployee = employeeSearch(scanner);
+        
+        editEmployee.setTimeEntry(null, checkNumber);
     }
 
     public Employee employeeSearch(Scanner scanner /*temp scanner until GUI*/) {
