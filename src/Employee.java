@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 
 public class Employee {
     private int employeeID;
@@ -10,7 +11,7 @@ public class Employee {
     private String lastName; 
     private String suffix;
     private String department;
-    private String jobTitle;    
+    private String jobTitle;
     private boolean active;
     private LocalDate hireDate;
     private String payType;
@@ -24,6 +25,8 @@ public class Employee {
     private String zip;
     private int dependents;
     private String medicalCoverageType;
+    private String emailAddress;
+    private String password;    
     private HashMap<LocalDate, Double> timeClock = new HashMap<>();
     private HashMap<LocalDate, Integer> PTOList = new HashMap();
         
@@ -53,6 +56,7 @@ public class Employee {
 
     //constructor with parameters
     public Employee(
+        String companyName,
         int employeeCount,
         String newFirstName,
         String newMiddleName,
@@ -93,7 +97,10 @@ public class Employee {
             this.state = newState;
             this.zip = newZip;
             this.dependents = newDependents;
-            this.medicalCoverageType = newMedicalCoverage;       
+            this.medicalCoverageType = newMedicalCoverage;
+            this.emailAddress = firstName + lastName + employeeID + "@" + companyName.replaceAll("\\s", "") + ".com";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+            this.password = dateOfBirth.format(formatter);
     }
 
     //setter functions
@@ -139,6 +146,10 @@ public class Employee {
         timeClock.put(punchDate, hoursWorked);
     }
 
+    public void setPTO(LocalDate dateOff, int countDayOff) {
+        PTOList.put(dateOff, countDayOff);
+    }
+
     //getter functions 
     public int getEmployeeID() {return employeeID;}
     
@@ -180,6 +191,10 @@ public class Employee {
 
     public String getMedicalCoverageType() {return this.medicalCoverageType;}
 
+    public String getEmailAddress() {return this.emailAddress;}
+
+    public String getPassword() {return this.password;}
+
     public Double getHoursWorked(Dates dates) { 
         ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
         System.out.println(payPeriod);
@@ -192,7 +207,15 @@ public class Employee {
         return totalHours;
     }
     public int getPTODays(Dates dates) { 
-        return PTOEntry.tempPTO();
+        ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
+        System.out.println(payPeriod);
+        int totalDaysOff = 0;
+        for (int i = 0; i < 7; i++) {
+            if(PTOList.containsKey(payPeriod.get(i))){
+                totalDaysOff = totalDaysOff + PTOList.get(payPeriod.get(i));
+            }
+        }
+        return totalDaysOff;
     }
 
     //doing functions
@@ -239,6 +262,41 @@ public class Employee {
         }
     }
 
+    public void newPTO(Scanner scanner, Dates dates){
+        System.out.println("Enter start date as YYYY-MM-dd");
+        String dateString = scanner.nextLine();
+        //enter first date off
+        LocalDate PTOStartDate = LocalDate.parse(dateString);
+        //make sure date is current
+        if(PTOStartDate.isAfter(LocalDate.now()) || PTOStartDate.isEqual(LocalDate.now())) {
+            //get number of consecutive days off
+            System.out.println("Enter number of days off");
+            int daysOff = scanner.nextInt();
+            scanner.nextLine();
+
+            //add days off to employee PTO ArrayList
+            for (LocalDate i = PTOStartDate; i.isBefore(PTOStartDate.plusDays(daysOff)); i.plusDays(1))
+                setPTO(i, 1);
+        }
+        else {
+            System.out.println("You cannot request time off for past dates");
+        }
+    }
+
+    public void deletePTO(Scanner scanner, Dates dates){
+        System.out.println("Enter date as YYYY-MM-dd");
+        String dateString = scanner.nextLine();
+        LocalDate PTODate = LocalDate.parse(dateString);
+
+        if(PTOList.containsKey(PTODate)) {                
+            PTOList.remove(PTODate);
+            System.out.println("Day off removed on " + PTODate);
+        }
+        else {
+            System.out.println("No PTO was entered for " + PTODate);
+        }
+    }
+
     //display functions
     public void printEmployeeInfo() {
         System.out.println("Employee ID: " + employeeID);
@@ -268,6 +326,8 @@ public class Employee {
         System.out.println(city + ", " + state + " " + zip);
         System.out.println("Dependents: " + dependents);
         System.out.println("Medical Coverage: " + medicalCoverageType);
+        System.out.println("Email address: " + emailAddress);
+        System.out.println("Password: " + password);
         System.out.println();
     }
 

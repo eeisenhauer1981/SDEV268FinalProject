@@ -43,10 +43,11 @@ public class MainApp /*extends Application*/ {
         dateString = "1999-02-02";
         LocalDate testBirthDate = LocalDate.parse(dateString);
 
-        Employee testEmployee = new Employee(1, "First", "M", "Last", "Suff", "MGMT", "Job", true, testHireDate, "Hourly", 55.55, testBirthDate, "Female", "111 Street", "", "Fort Wayne", "IN", "46804", 3, "Family");
-        testEmployee.newTimePunch(scanner, dates);
-        testEmployee.newTimePunch(scanner, dates);
-        System.out.println("Total Hours: " + testEmployee.getHoursWorked(dates));
+        Employee testEmployee = new Employee("Marshmallow Haven", 1, "First", "M", "Last", "Suff", "MGMT", "Job", true, testHireDate, "Hourly", 55.55, testBirthDate, "Female", "111 Street", "", "Fort Wayne", "IN", "46804", 3, "Family");
+        testEmployee.printEmployeeInfo();
+        //testEmployee.newTimePunch(scanner, dates);
+        //testEmployee.newTimePunch(scanner, dates);
+        //System.out.println("Total Hours: " + testEmployee.getHoursWorked(dates));
 
         scanner.close();
     }

@@ -10,6 +10,7 @@ public class Company {
     boolean payrollProcessing;
     HashMap<Integer, Employee> employees = new HashMap<>();
     HashMap<Integer, PayCheck> paychecks = new HashMap<>();
+    HashMap<String, String> credentials = new HashMap<>();
 
     //Constructors
     public Company(){
@@ -112,6 +113,7 @@ public class Company {
 
         //create Employee object
         Employee newEmployee = new Employee (
+                name,
                 employeeNumber,
                 firstName,
                 middleName,
@@ -135,6 +137,7 @@ public class Company {
             );
         //call function to add newEmployee to company's employee HashMap
         addEmployee(employeeNumber, newEmployee);
+        addCredentials(newEmployee);
     }
     
     //add employee to company's employee HashMap
@@ -142,6 +145,12 @@ public class Company {
         employees.put(currEmployeeNumber, newEmployee);
         //increase employeeNumber by 1 to assign next employee ID
         employeeNumber = employeeNumber + 1;
+    }
+
+    public void addCredentials(Employee newEmployee) {
+        String username = newEmployee.getEmailAddress();
+        String password = newEmployee.getPassword();
+        credentials.put(username, password);
     }
 
     public void editEmployeeData(Scanner scanner /*temp scanner until GUI*/) {

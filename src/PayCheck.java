@@ -23,6 +23,9 @@ public class PayCheck {
         calculatePayCheck(dates);        
     }
 
+    //only calculates for current pay period using payPeriod set in Dates
+    //previous pay period paychecks are saved and can be looked up
+    //current
     public void calculatePayCheck(Dates dates) {
         dependentStipend = calculateDependentStipend(payTo);
         medicalDeduction = calculateMedicalDeduction(payTo);
