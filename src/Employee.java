@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
-public class Employee {
+class Employee {
     private int employeeID;
     private String firstName;
     private String middleName;

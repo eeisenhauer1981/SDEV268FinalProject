@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class PayCheck {
+class PayCheck {
     private int checkNumber;
     private LocalDate checkDate;
     private double dependentStipend;

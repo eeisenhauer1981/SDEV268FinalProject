@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
-public class Dates {
+class Dates {
     //date of end of last pay period (previous Friday)
     private LocalDate lastPayPeriod;
     //date of end of current pay period (upcoming Friday)
