@@ -197,6 +197,15 @@ class Employee {
 
     public String getAddress2() {return this.address2;}
 
+    public String getFullAddress() {
+        if(address2.isBlank()) {
+            return address1;
+        }
+        else {
+            return address1 + ", " + address2;
+        }
+    }
+
     public String getCity() {return this.city;}
 
     public String getState() {return this.state;}
@@ -236,32 +245,24 @@ class Employee {
 
     public String getEmployeeInfo() {
         String empStatus = getActiveString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String fullAddress = getFullAddress();
         
 
         return "Employee ID: " + employeeID + "\n"
             + "Name: " + firstName + " " + middleName + " " + lastName + " " + suffix + "\n"
             + "Department: " + department + "\n"
             + "Job Title: " + jobTitle + "\n"
-        
-        System.out.println("Hire Date: " + hireDate);
-        System.out.println("Pay Type: " + payType);
-        if (payType.equalsIgnoreCase("Hourly")) {
-            System.out.println("Hourly Rate: $" + basePay);
-        }
-        else {
-            System.out.println("Annual Salary: $" + basePay);  
-        }
-        System.out.println("Date of Birth: " + dateOfBirth);
-        System.out.println("Gender: " + gender);        
-        System.out.print("Address: " + address1 + ", ");
-        if (address2 != null) {
-            System.out.print(address2 + ", ");
-        }
-        System.out.println(city + ", " + state + " " + zip);
-        System.out.println("Dependents: " + dependents);
-        System.out.println("Medical Coverage: " + medicalCoverageType);
-        System.out.println("Email address: " + emailAddress);
-        System.out.println();
+            + "Employee Status: " + empStatus + "\n"
+            + "Hire Date: " + hireDate.format(formatter) + "\n"
+            + "Pay Type: " + payType + "\n"
+            + "Base Pay: " + basePay + "\n"
+            + "Birth Date: " + dateOfBirth.format(formatter) + "\n"
+            + "Gender: " + gender + "\n"        
+            + "Address: " + fullAddress + ", " + city + ", " + state + " " + zip + "\n"
+            + "Dependents: " + dependents + "\n"
+            + "Medical Coverage: " + medicalCoverageType + "\n"
+            + "Email address: " + emailAddress + "\n";
     }
 
     //doing functions

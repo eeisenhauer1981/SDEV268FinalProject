@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
-
+import java.util.Collection;
 
 class Company {
     String name;
@@ -36,10 +36,8 @@ class Company {
         return name;
     }
 
-    public void getEmployees() {
-        for(int i : employees.keySet()) {
-            employees.get(i);
-        }
+    public Collection<Employee> getEmployees() {
+        return employees.values();
     }
 
     //doer functions
@@ -161,7 +159,7 @@ class Company {
         Employee editEmployee = employeeSearch(scanner);
 
         System.out.println("You are editing:");
-        editEmployee.printEmployeeInfo();
+        editEmployee.getEmployeeInfo();
 
         System.out.println("Which field would you like to change? Enter quit if you are done editing.");
         String editData = scanner.nextLine();        

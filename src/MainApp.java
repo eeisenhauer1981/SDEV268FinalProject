@@ -12,7 +12,10 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) {
         
-        Employee testEmployee = new Employee(company, 1, "Mary", "J", "Tester", "", "MGMT", "JobTitle", true, LocalDate.of(2023, 03, 17), "Salary", 55251.00, LocalDate.of(1999, 01, 01), "Female", "111 Address", "", "Fort Wayne", "IN", "46804", 3, "Family");
+        Employee testEmployee1 = new Employee(company, 1, "Mary", "J", "Tester", "", "MGMT", "JobTitle", true, LocalDate.of(2023, 03, 17), "Salary", 55251.00, LocalDate.of(1999, 01, 01), "Female", "111 Address", "", "Fort Wayne", "IN", "46804", 3, "Family");
+        company.addEmployee(1, testEmployee1);
+        Employee testEmployee2 = new Employee(company, 2, "Jack", "F", "Employee", "", "DIS", "JobTitle2", true, LocalDate.of(2026, 07, 24), "Hourly", 55.25, LocalDate.of(2003, 02, 02), "Male", "555 Address", "Apt. 2", "Fort Wayne", "IN", "46801", 0, "Single");
+        company.addEmployee(2, testEmployee2);
         String adminHashPassword = SecurityUtil.hashMD5("Adm1n!");
         User adminUser = new User("HR0001", adminHashPassword, Role.ADMIN, -1, true);
         AuthenticationManager.addUser("HR0001", adminUser);
