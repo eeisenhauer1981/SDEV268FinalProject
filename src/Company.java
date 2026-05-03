@@ -31,6 +31,11 @@ class Company {
         return checkNumber + 1;
     }
 
+    //getters
+    public String getName() {
+        return name;
+    }
+
     //doer functions
 
     //input new employee information

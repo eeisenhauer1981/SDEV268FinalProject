@@ -1,21 +1,59 @@
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class LoginScreen {
 
     public Parent getView(MainApp app) {
 
-        Label title = new Label("Login Screen");
+        Label title = new Label("Login");
 
-        Button loginButton = new Button("Go to Main App");
+        //fields for user input
+        Label usernameLabel = new Label("Enter your username:");
+        TextField usernameField = new TextField();
 
-        loginButton.setOnAction(e -> {
-            app.showMainMenu();
+        Label passwordLabel = new Label("Enter your password:");
+        TextField passwordField = new TextField();
+
+        //buttons
+        Button loginAdminButton = new Button("Login as Admin");
+        Button loginEmployeeButton = new Button("Login as Employee");
+
+        loginAdminButton.setOnAction(e -> {
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            User adminUser = AuthenticationManager.authenticateAdmin(username, password);
+            if(adminUser != null) {
+                app.showAdminMainMenu();
+            }
+            else{
+                app.showNoAccess();
+            }
         });
 
-        VBox layout = new VBox(10, title, loginButton);
+        loginEmployeeButton.setOnAction(e -> {
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+            User employeeUser = AuthenticationManager.authenticateEmployee(username, password);
+            if(employeeUser != null) {
+                app.showEmployeeMainMenu();
+            }
+            else{
+                app.showNoAccess();
+            }
+        });
+
+        VBox layout = new VBox(10, title);
+        layout.getChildren().addAll(
+            usernameLabel,
+            usernameField,
+            passwordLabel,
+            passwordField,
+            loginAdminButton,
+            loginEmployeeButton
+        );
 
         return layout;
     }

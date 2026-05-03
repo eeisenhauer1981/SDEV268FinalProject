@@ -26,7 +26,7 @@ class Employee {
     private int dependents;
     private String medicalCoverageType;
     private String emailAddress;
-    private String password;    
+    private Role role;    
     private HashMap<LocalDate, Double> timeClock = new HashMap<>();
     private HashMap<LocalDate, Integer> PTOList = new HashMap();
         
@@ -99,8 +99,8 @@ class Employee {
             this.dependents = newDependents;
             this.medicalCoverageType = newMedicalCoverage;
             this.emailAddress = firstName + lastName + employeeID + "@" + companyName.replaceAll("\\s", "") + ".com";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
-            this.password = dateOfBirth.format(formatter);
+            this.role = Role.EMPLOYEE;
+            AuthenticationManager.newUser(this.getEmailAddress(), this.getDateOfBirth(), this.getRole(), this.getEmployeeID(), this.getActive());
     }
 
     //setter functions
@@ -193,7 +193,7 @@ class Employee {
 
     public String getEmailAddress() {return this.emailAddress;}
 
-    public String getPassword() {return this.password;}
+    public Role getRole() {return this.role;};
 
     public Double getHoursWorked(Dates dates) { 
         ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
@@ -327,7 +327,6 @@ class Employee {
         System.out.println("Dependents: " + dependents);
         System.out.println("Medical Coverage: " + medicalCoverageType);
         System.out.println("Email address: " + emailAddress);
-        System.out.println("Password: " + password);
         System.out.println();
     }
 
