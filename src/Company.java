@@ -6,7 +6,7 @@ import java.util.Collection;
 class Company {
     String name;
     int checkNumber;
-    int employeeNumber;
+    int employeeCount;
     boolean payrollProcessing;
     HashMap<Integer, Employee> employees = new HashMap<>();
     HashMap<Integer, PayCheck> paychecks = new HashMap<>();
@@ -15,143 +15,102 @@ class Company {
     public Company(){
         this.name = "New Company";
         this.checkNumber = -1;
-        this.employeeNumber = -1;
+        this.employeeCount = -1;
         this.payrollProcessing = false;
     }
 
     public Company(String newName){
         this.name = newName;
         this.checkNumber = 1;
-        this.employeeNumber = 1;
+        this.employeeCount = 0;
         this.payrollProcessing = false;
     }
 
     //setters
-    public int increaseCheckNumber() {
-        return checkNumber + 1;
+    public void increaseCheckNumber() {
+        checkNumber = checkNumber + 1;
     }
 
+    public void increaseEmployeeCount() {
+        employeeCount = employeeCount +1;
+    }
+
+    
     //getters
     public String getName() {
         return name;
     }
+
+    public int getCheckNumber() {return checkNumber;}
+
+    public int getEmployeeCount() {return employeeCount;}
 
     public Collection<Employee> getEmployees() {
         return employees.values();
     }
 
     //doer functions
+    public String createEmailAddress(String firstName, String lastName, int employeeID) {
+        return firstName + lastName + employeeID + "@" + getName().replaceAll("\\s", "") + ".com";
+    }
 
     //input new employee information
-    public void loadEmployeeData(Scanner scanner /*temp scanner until GUI*/){
-
-        System.out.println("First Name:");
-        String firstName = scanner.nextLine();
-
-        System.out.println("Middle Name:");
-        String middleName = scanner.nextLine();
+    public void createNewEmployee(
+        String newFirstName,
+        String newMiddleName,
+        String newLastName,
+        String newSuffix,
+        String newDepartment,
+        String newJobTitle,
+        boolean newActive,
+        LocalDate newHireDate,
+        String newPayType,
+        double newBasePay,
+        LocalDate newBirthDate,
+        String newGender,
+        String newAddress1,
+        String newAddress2,
+        String newCity,
+        String newState,
+        String newZip,
+        int newDependents,
+        String newMedicalCoverage){
         
-        System.out.println("Last Name:");
-        String lastName = scanner.nextLine();
+            increaseEmployeeCount();
+            String newEmailAddress = createEmailAddress(newFirstName, newLastName, getEmployeeCount());
 
-        System.out.println("Suffix:");
-        String suffix = scanner.nextLine();
-
-        System.out.println("Department:");
-        String department = scanner.nextLine();
-        //MGMT, DIS, PRD, HR
-
-        System.out.println("Job Title:");
-        String jobTitle = scanner.nextLine();
-
-        Boolean active = true;
-
-        System.out.println("Hire Date (enter year, enter month, enter day):");
-        int hireYear = scanner.nextInt();
-        scanner.nextLine();
-        int hireMonth = scanner.nextInt();
-        scanner.nextLine();
-        int hireDay = scanner.nextInt();
-        scanner.nextLine();
-        LocalDate hireDate = LocalDate.of(hireYear, hireMonth, hireDay);
-
-        System.out.println("Pay Type:");
-        String payType = scanner.nextLine();
-        //"Hourly", "Salary"
-
-        System.out.println("Base Pay:");
-        Double basePay = scanner.nextDouble();
-        scanner.nextLine();
-
-        System.out.println("Date of Birth:");
-        int birthYear = scanner.nextInt();
-        scanner.nextLine();
-        int birthMonth = scanner.nextInt();
-        scanner.nextLine();
-        int birthDay = scanner.nextInt();
-        scanner.nextLine();
-        LocalDate birthDate = LocalDate.of(birthYear, birthMonth, birthDay);
-        
-        System.out.println("Gender:");
-        String gender = scanner.nextLine();
-        //"Female", "Male", "Non-Binary", "Not Reported"
-        
-        System.out.println("Address Line 1:");
-        String address1 = scanner.nextLine();
-
-        System.out.println("Address Line 2:");
-        String address2 = scanner.nextLine();
-
-        System.out.println("City:");
-        String city = scanner.nextLine();
-
-        System.out.println("State:");
-        String state = scanner.nextLine();
-
-        System.out.println("Zip Code:");
-        String zip = scanner.nextLine();
-
-        System.out.println("Number of Dependents:");
-        int dependents = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Medical Coverage Type:");
-        String medicalCoverage = scanner.nextLine();
-        //"Family", "Single"
-
-        //create Employee object
-        Employee newEmployee = new Employee (
+            //create Employee object
+            Employee newEmployee = new Employee (
                 this,
-                employeeNumber,
-                firstName,
-                middleName,
-                lastName,
-                suffix,
-                department,
-                jobTitle,
-                active,
-                hireDate,
-                payType,
-                basePay,
-                birthDate,
-                gender,
-                address1,
-                address2,
-                city,
-                state,
-                zip,
-                dependents,
-                medicalCoverage
+                getEmployeeCount(),
+                newFirstName,
+                newMiddleName,
+                newLastName,
+                newSuffix,
+                newDepartment,
+                newJobTitle,
+                newActive,
+                newHireDate,
+                newPayType,
+                newBasePay,
+                newBirthDate,
+                newGender,
+                newAddress1,
+                newAddress2,
+                newCity,
+                newState,
+                newZip,
+                newDependents,
+                newMedicalCoverage,
+                newEmailAddress
             );
         //call function to add newEmployee to company's employee HashMap
-        addEmployee(employeeNumber, newEmployee);
+        addEmployee(getEmployeeCount(), newEmployee);
     }
     
     //add employee to company's employee HashMap
     public void addEmployee(int currEmployeeNumber, Employee newEmployee) {
         employees.put(currEmployeeNumber, newEmployee);
-        //increase employeeNumber by 1 to assign next employee ID
-        employeeNumber = employeeNumber + 1;
     }
 
     public void editEmployeeData(Scanner scanner /*temp scanner until GUI*/) {

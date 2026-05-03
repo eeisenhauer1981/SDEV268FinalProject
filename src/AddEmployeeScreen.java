@@ -1,4 +1,4 @@
-/*
+import javafx.scene.Parent;
 import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -12,9 +12,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
 
-public class EmployeeGUI {
+public class AddEmployeeScreen {
 
-    public ScrollPane getView() {
+    public Parent getView(MainApp app, Company company) {
+        //fields to enter new employee data
         Label firstNameLabel = new Label("First Name:");
         TextField firstNameField = new TextField();
 
@@ -47,7 +48,7 @@ public class EmployeeGUI {
         Label basePayLabel = new Label("Base Pay:");
         TextField basePayField = new TextField();
 
-        Label birthDateLabel = new Label("Date of Birth:");
+        Label birthDateLabel = new Label("Birth Date:");
         DatePicker birthDatePicker = new DatePicker();
         
         Label genderLabel = new Label("Gender:");
@@ -99,7 +100,7 @@ public class EmployeeGUI {
             int dependents = Integer.parseInt(dependentsField.getText());
             String medicalCoverageType = medicalCoverageBox.getValue();
 
-            Employee newEmployee = new Employee (
+            company.createNewEmployee(
                 firstName,
                 middleName,
                 lastName,
@@ -118,11 +119,11 @@ public class EmployeeGUI {
                 state,
                 zip,
                 dependents,
-                medicalCoverageType
-            );
-
-            newEmployee.printEmployeeInfo();
+                medicalCoverageType);
+            
+            app.showSuccessfulAction("Employee successfully added");
         });
+
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(
@@ -172,4 +173,3 @@ public class EmployeeGUI {
         return scrollPane;
     }
 }
-    */

@@ -2,6 +2,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
 
 public class ViewEmployeesScreen {
     public Parent getView(MainApp app, Company company) {
@@ -17,20 +18,22 @@ public class ViewEmployeesScreen {
 
 
         //option buttons
-        Button returnToLoginButton = new Button("Return to Login Screen");
+        Button returnToAdminMenuButton = new Button("Return to Admin Main Menu");
         Button exitButton = new Button("Exit");
 
-        returnToLoginButton.setOnAction(e -> {
-            app.showLogin();
+        returnToAdminMenuButton.setOnAction(e -> {
+            app.showAdminMainMenu();
         });
             
         exitButton.setOnAction(e -> {
             System.exit(0);
         });
 
-        VBox layout = new VBox(10, title, employeeList, returnToLoginButton, exitButton);
+        VBox layout = new VBox(10, title, employeeList, returnToAdminMenuButton, exitButton);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(layout);
+        scrollPane.setFitToWidth(true);
+        return scrollPane;
         
-
-        return layout;
     }
 }

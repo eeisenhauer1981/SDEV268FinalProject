@@ -77,7 +77,8 @@ class Employee {
         String newState,
         String newZip,
         int newDependents,
-        String newMedicalCoverage
+        String newMedicalCoverage,
+        String newEmailAddress
     ) {
             this.company = newcompany;
             this.employeeID = employeeCount;
@@ -100,8 +101,7 @@ class Employee {
             this.zip = newZip;
             this.dependents = newDependents;
             this.medicalCoverageType = newMedicalCoverage;
-            setEmailAddress(newFirstName, newLastName, employeeID);
-            this.emailAddress = this.getEmailAddress();
+            this.emailAddress = newEmailAddress;
             this.role = Role.EMPLOYEE;
             AuthenticationManager.newUser(this.getEmailAddress(), this.getDateOfBirth(), this.getRole(), this.getEmployeeID(), this.getActive());
     }
@@ -145,9 +145,6 @@ class Employee {
 
     public void setMedicalCoverageType(String medicalCoverageType) {this.medicalCoverageType = medicalCoverageType;}
 
-    public void setEmailAddress(String firstName, String lastName, int employeeID) {
-        emailAddress = firstName + lastName + employeeID + "@" + company.getName().replaceAll("\\s", "") + ".com";
-    }
 
     public void setTimePunch(LocalDate punchDate, Double hoursWorked) {
         timeClock.put(punchDate, hoursWorked);
@@ -246,8 +243,7 @@ class Employee {
     public String getEmployeeInfo() {
         String empStatus = getActiveString();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String fullAddress = getFullAddress();
-        
+        String fullAddress = getFullAddress();        
 
         return "Employee ID: " + employeeID + "\n"
             + "Name: " + firstName + " " + middleName + " " + lastName + " " + suffix + "\n"
@@ -256,7 +252,7 @@ class Employee {
             + "Employee Status: " + empStatus + "\n"
             + "Hire Date: " + hireDate.format(formatter) + "\n"
             + "Pay Type: " + payType + "\n"
-            + "Base Pay: " + basePay + "\n"
+            + "Base Pay: $" + basePay + "\n"
             + "Birth Date: " + dateOfBirth.format(formatter) + "\n"
             + "Gender: " + gender + "\n"        
             + "Address: " + fullAddress + ", " + city + ", " + state + " " + zip + "\n"
