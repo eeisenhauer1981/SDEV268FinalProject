@@ -1,0 +1,4 @@
+enum PayType {
+    HOURLY,
+    SALARY    
+}

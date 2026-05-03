@@ -20,6 +20,7 @@ public class LoginScreen {
         //buttons
         Button loginAdminButton = new Button("Login as Admin");
         Button loginEmployeeButton = new Button("Login as Employee");
+        Button exitButton = new Button("Login as Employee");
 
         loginAdminButton.setOnAction(e -> {
             String username = usernameField.getText();
@@ -43,6 +44,10 @@ public class LoginScreen {
             else{
                 app.showNoAccess();
             }
+        });
+
+        exitButton.setOnAction(e -> {
+            System.exit(0);
         });
 
         VBox layout = new VBox(10, title);

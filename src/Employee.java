@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
 class Employee {
+    private Company company;
     private int employeeID;
     private String firstName;
     private String middleName;
@@ -28,7 +29,7 @@ class Employee {
     private String emailAddress;
     private Role role;    
     private HashMap<LocalDate, Double> timeClock = new HashMap<>();
-    private HashMap<LocalDate, Integer> PTOList = new HashMap();
+    private HashMap<LocalDate, Integer> PTOList = new HashMap<>();
         
     //default constructor
     public Employee() {
@@ -56,7 +57,7 @@ class Employee {
 
     //constructor with parameters
     public Employee(
-        String companyName,
+        Company newcompany,
         int employeeCount,
         String newFirstName,
         String newMiddleName,
@@ -78,6 +79,7 @@ class Employee {
         int newDependents,
         String newMedicalCoverage
     ) {
+            this.company = newcompany;
             this.employeeID = employeeCount;
             this.firstName = newFirstName;
             this.middleName = newMiddleName;
@@ -98,7 +100,8 @@ class Employee {
             this.zip = newZip;
             this.dependents = newDependents;
             this.medicalCoverageType = newMedicalCoverage;
-            this.emailAddress = firstName + lastName + employeeID + "@" + companyName.replaceAll("\\s", "") + ".com";
+            setEmailAddress(newFirstName, newLastName, employeeID);
+            this.emailAddress = this.getEmailAddress();
             this.role = Role.EMPLOYEE;
             AuthenticationManager.newUser(this.getEmailAddress(), this.getDateOfBirth(), this.getRole(), this.getEmployeeID(), this.getActive());
     }
@@ -142,6 +145,10 @@ class Employee {
 
     public void setMedicalCoverageType(String medicalCoverageType) {this.medicalCoverageType = medicalCoverageType;}
 
+    public void setEmailAddress(String firstName, String lastName, int employeeID) {
+        emailAddress = firstName + lastName + employeeID + "@" + company.getName().replaceAll("\\s", "") + ".com";
+    }
+
     public void setTimePunch(LocalDate punchDate, Double hoursWorked) {
         timeClock.put(punchDate, hoursWorked);
     }
@@ -166,6 +173,15 @@ class Employee {
     public String getJobTitle() {return this.jobTitle;}
 
     public boolean getActive() {return this.active;}
+
+    public String getActiveString() {
+        if(active) {
+            return "Active";
+        }
+        else {
+            return "Terminated";
+        }
+    }
 
     public LocalDate getHireDate() {return this.hireDate;}
 
@@ -216,6 +232,36 @@ class Employee {
             }
         }
         return totalDaysOff;
+    }
+
+    public String getEmployeeInfo() {
+        String empStatus = getActiveString();
+        
+
+        return "Employee ID: " + employeeID + "\n"
+            + "Name: " + firstName + " " + middleName + " " + lastName + " " + suffix + "\n"
+            + "Department: " + department + "\n"
+            + "Job Title: " + jobTitle + "\n"
+        
+        System.out.println("Hire Date: " + hireDate);
+        System.out.println("Pay Type: " + payType);
+        if (payType.equalsIgnoreCase("Hourly")) {
+            System.out.println("Hourly Rate: $" + basePay);
+        }
+        else {
+            System.out.println("Annual Salary: $" + basePay);  
+        }
+        System.out.println("Date of Birth: " + dateOfBirth);
+        System.out.println("Gender: " + gender);        
+        System.out.print("Address: " + address1 + ", ");
+        if (address2 != null) {
+            System.out.print(address2 + ", ");
+        }
+        System.out.println(city + ", " + state + " " + zip);
+        System.out.println("Dependents: " + dependents);
+        System.out.println("Medical Coverage: " + medicalCoverageType);
+        System.out.println("Email address: " + emailAddress);
+        System.out.println();
     }
 
     //doing functions
@@ -298,37 +344,7 @@ class Employee {
     }
 
     //display functions
-    public void printEmployeeInfo() {
-        System.out.println("Employee ID: " + employeeID);
-        System.out.println("Name: " + firstName + " " + middleName + " " + lastName + " " + suffix);
-        System.out.println("Department: " + department);
-        System.out.println("Job Title: " + jobTitle);
-        if (active) {
-            System.out.println("Status: Active");
-        }
-        else {
-            System.out.println("Status: Terminated");            
-        }
-        System.out.println("Hire Date: " + hireDate);
-        System.out.println("Pay Type: " + payType);
-        if (payType.equalsIgnoreCase("Hourly")) {
-            System.out.println("Hourly Rate: $" + basePay);
-        }
-        else {
-            System.out.println("Annual Salary: $" + basePay);  
-        }
-        System.out.println("Date of Birth: " + dateOfBirth);
-        System.out.println("Gender: " + gender);        
-        System.out.print("Address: " + address1 + ", ");
-        if (address2 != null) {
-            System.out.print(address2 + ", ");
-        }
-        System.out.println(city + ", " + state + " " + zip);
-        System.out.println("Dependents: " + dependents);
-        System.out.println("Medical Coverage: " + medicalCoverageType);
-        System.out.println("Email address: " + emailAddress);
-        System.out.println();
-    }
+    
 
     public void printTimeRecords() {
         System.out.println(timeClock);

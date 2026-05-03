@@ -36,6 +36,12 @@ class Company {
         return name;
     }
 
+    public void getEmployees() {
+        for(int i : employees.keySet()) {
+            employees.get(i);
+        }
+    }
+
     //doer functions
 
     //input new employee information
@@ -117,7 +123,7 @@ class Company {
 
         //create Employee object
         Employee newEmployee = new Employee (
-                name,
+                this,
                 employeeNumber,
                 firstName,
                 middleName,
@@ -205,10 +211,6 @@ class Company {
 
     //output functions
     //loops through employees and outputs each employee's information
-    public void printEmployees() {
-        for(int i : employees.keySet()) {
-            employees.get(i).printEmployeeInfo();
-        }
-    }
+    
 
 }

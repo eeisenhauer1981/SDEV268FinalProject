@@ -6,10 +6,8 @@ import javafx.scene.layout.VBox;
 public class NoAccessScreen {
     public Parent getView(MainApp app) {
 
-        Label title = new Label("Unauthorized");
-
         //no access message
-        Label noAccessLabel = new Label("You are not authorized to perform that action.");
+        Label noAccessLabel = new Label("You are not an authorized user");
     
         //buttons
         Button returnToLoginButton = new Button("Return to Login Screen");
@@ -23,7 +21,7 @@ public class NoAccessScreen {
             System.exit(0);
         });
 
-        VBox layout = new VBox(10, title);
+        VBox layout = new VBox(10);
         layout.getChildren().addAll(
             noAccessLabel,
             returnToLoginButton,

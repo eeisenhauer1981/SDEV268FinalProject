@@ -1,0 +1,4 @@
+enum MedicalCoverageType {
+    FAMILY,
+    SINGLE    
+}

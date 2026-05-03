@@ -1,14 +1,22 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import java.time.LocalDate;
 
 public class MainApp extends Application {
+    private Company company = new Company("Marshmallow Haven");
 
     private Stage primaryStage;
 
     @Override
     public void start(Stage stage) {
+        
+        Employee testEmployee = new Employee(company, 1, "Mary", "J", "Tester", "", "MGMT", "JobTitle", true, LocalDate.of(2023, 03, 17), "Salary", 55251.00, LocalDate.of(1999, 01, 01), "Female", "111 Address", "", "Fort Wayne", "IN", "46804", 3, "Family");
+        String adminHashPassword = SecurityUtil.hashMD5("Adm1n!");
+        User adminUser = new User("HR0001", adminHashPassword, Role.ADMIN, -1, true);
+        AuthenticationManager.addUser("HR0001", adminUser);
+
         this.primaryStage = stage;
 
         showLogin();
@@ -23,12 +31,56 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
+    //main menu screens
     public void showAdminMainMenu() {
-        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Admin Menu Placeholder"), 400, 300));
+        AdminMainMenuScreen adminMainMenu = new AdminMainMenuScreen();
+        Scene scene = new Scene(adminMainMenu.getView(this), 400, 300);
+        primaryStage.setScene(scene);
     }
 
     public void showEmployeeMainMenu() {
-        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Employee Menu Placeholder"), 400, 300));
+        EmployeeMainMenuScreen employeeMainMenu = new EmployeeMainMenuScreen();
+        Scene scene = new Scene(employeeMainMenu.getView(this), 400, 300);
+        primaryStage.setScene(scene);
+    }
+
+    //action screens
+    public void showViewEmployees() {
+        ViewEmployeesScreen viewEmployees = new ViewEmployeesScreen();
+        Scene scene = new Scene(viewEmployees.getView(this, company), 400, 300);
+        primaryStage.setScene(scene);
+    }
+
+    public void showAddEmployee() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Add Employee Placeholder"), 400, 300));
+    }
+
+    public void showEditEmployee() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Edit Employee Placeholder"), 400, 300));
+    }
+
+    public void showEditTimeCard() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Edit Time Card Placeholder"), 400, 300));
+    }
+
+    public void showEditPTO() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Edit PTO Placeholder"), 400, 300));
+    }
+
+    public void showReviewPayroll() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Review Payroll Placeholder"), 400, 300));
+    }
+
+    public void showProcessPayroll() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Process Payroll Placeholder"), 400, 300));
+    }
+
+    public void showCalculatePay() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Paycheck Calculator Placeholder"), 400, 300));
+    }
+
+    public void showViewAppInfo() {
+        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Show App Info Placeholder"), 400, 300));
     }
 
     public void showNoAccess() {
@@ -38,12 +90,7 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
-        Employee testEmployee = new Employee("Marshmallow Haven", 1, "Mary", "J", "Tester", "", "MGMT", "JobTitle", true, LocalDate.of(2023, 03, 17), "Salary", 55251.00, LocalDate.of(1999, 01, 01), "Female", "111 Address", "", "Fort Wayne", "IN", "46804", 3, "Family");
-        testEmployee.printEmployeeInfo();
-        String adminHashPassword = SecurityUtil.hashMD5("Adm1n!");
-        User adminUser = new User("HR0001", adminHashPassword, Role.ADMIN, -1, true);
-        AuthenticationManager.addUser("HR0001", adminUser);
-
+        
         launch(args);
 
     }
