@@ -30,11 +30,11 @@ public class AdminMainMenuScreen {
         });
 
         editEmployeeButton.setOnAction(e -> {
-            app.showEditEmployee();
+            app.showEmployeeSearch("EditInfo");
         });
 
         editTimeCardButton.setOnAction(e -> {
-            app.showEditTimeCard();
+            app.showEmployeeSearch("EditTime");
         });
 
         reviewPayrollButton.setOnAction(e -> {

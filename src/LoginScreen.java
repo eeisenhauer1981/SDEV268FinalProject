@@ -2,11 +2,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 
 public class LoginScreen {
 
-    public Parent getView(MainApp app) {
+    public Parent getView(MainApp app, Company company) {
 
         Label title = new Label("Login");
 
@@ -15,7 +16,7 @@ public class LoginScreen {
         TextField usernameField = new TextField();
 
         Label passwordLabel = new Label("Enter your password:");
-        TextField passwordField = new TextField();
+        PasswordField passwordField = new PasswordField();
 
         //buttons
         Button loginAdminButton = new Button("Login as Admin");
@@ -39,6 +40,7 @@ public class LoginScreen {
             String password = passwordField.getText();
             User employeeUser = AuthenticationManager.authenticateEmployee(username, password);
             if(employeeUser != null) {
+                company.setActiveUser(employeeUser);
                 app.showEmployeeMainMenu();
             }
             else{

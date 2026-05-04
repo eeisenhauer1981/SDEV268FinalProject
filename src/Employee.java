@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
 class Employee {
-    private Company company;
     private int employeeID;
     private String firstName;
     private String middleName;
@@ -30,34 +29,9 @@ class Employee {
     private Role role;    
     private HashMap<LocalDate, Double> timeClock = new HashMap<>();
     private HashMap<LocalDate, Integer> PTOList = new HashMap<>();
-        
-    //default constructor
-    public Employee() {
-        this.employeeID = 0;
-        this.firstName = "";
-        this.middleName = "";
-        this.lastName = "";        
-        this.suffix = "";
-        this.department = "";
-        this.jobTitle = "";        
-        this.active = false;
-        this.hireDate = null;
-        this.payType = "";
-        this.basePay = 0.0;
-        this.dateOfBirth = null;
-        this.gender = "'-'";
-        this.address1 = "";
-        this.address2 = "";
-        this.city = "";
-        this.state = "";
-        this.zip = "";
-        this.dependents = 0;
-        this.medicalCoverageType = "";       
-    }
 
     //constructor with parameters
     public Employee(
-        Company newcompany,
         int employeeCount,
         String newFirstName,
         String newMiddleName,
@@ -80,7 +54,6 @@ class Employee {
         String newMedicalCoverage,
         String newEmailAddress
     ) {
-            this.company = newcompany;
             this.employeeID = employeeCount;
             this.firstName = newFirstName;
             this.middleName = newMiddleName;
@@ -243,7 +216,7 @@ class Employee {
     public String getEmployeeInfo() {
         String empStatus = getActiveString();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        String fullAddress = getFullAddress();        
+        String fullAddress = getFullAddress();      
 
         return "Employee ID: " + employeeID + "\n"
             + "Name: " + firstName + " " + middleName + " " + lastName + " " + suffix + "\n"
@@ -262,46 +235,12 @@ class Employee {
     }
 
     //doing functions
-    public void newTimePunch(Scanner scanner, Dates dates){
-        System.out.println("Enter date as YYYY-MM-dd");
-        String dateString = scanner.nextLine();
-        LocalDate punchDate = LocalDate.parse(dateString);
-        //for testing
-        System.out.println("You entered " + punchDate);
-        if(dates.isValidTimeEntryDate(punchDate)) {
-            System.out.println("Enter hours worked on " + punchDate);
-            Double hoursEntered = scanner.nextDouble();
-            scanner.nextLine();
-            setTimePunch(punchDate, hoursEntered);
+    public void editTimePunch(LocalDate newPunchDate, Double newHoursWorked){
+        if(timeClock.containsKey(newPunchDate)) {                
+            timeClock.replace(newPunchDate, newHoursWorked);
         }
         else {
-            System.out.println("That date is outside of the current pay period");
-        }
-    }
-
-    public void editTimePunch(Scanner scanner, Dates dates){
-        System.out.println("Enter date as YYYY-MM-dd");
-        String dateString = scanner.nextLine();
-        LocalDate punchDate = LocalDate.parse(dateString);
-        //for testing
-        System.out.println("You entered " + punchDate);
-        if(dates.isValidTimeEntryDate(punchDate)) {
-            System.out.println("Enter hours worked on " + punchDate);
-            Double hoursEntered = scanner.nextDouble();
-            scanner.nextLine();
-            if(timeClock.containsKey(punchDate)) {                
-                timeClock.replace(punchDate, hoursEntered);
-                System.out.println("Previous hours replaced.");
-                System.out.println("New time card entry: " + timeClock.get(punchDate));
-            }
-            else {
-                setTimePunch(punchDate, hoursEntered);
-                System.out.println("No previous entry for " + punchDate);
-                System.out.println("Time card entry added: " + timeClock.get(punchDate));
-            }
-        }
-        else {
-            System.out.println("That date can no longer be edited");
+            setTimePunch(newPunchDate, newHoursWorked);
         }
     }
 

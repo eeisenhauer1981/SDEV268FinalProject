@@ -8,6 +8,7 @@ class Company {
     int checkNumber;
     int employeeCount;
     boolean payrollProcessing;
+    User activeUser;
     HashMap<Integer, Employee> employees = new HashMap<>();
     HashMap<Integer, PayCheck> paychecks = new HashMap<>();
 
@@ -35,7 +36,10 @@ class Company {
         employeeCount = employeeCount +1;
     }
 
-    
+    public void setActiveUser(User authenticatedUser) {
+        activeUser = authenticatedUser;
+    }
+
     //getters
     public String getName() {
         return name;
@@ -81,7 +85,6 @@ class Company {
 
             //create Employee object
             Employee newEmployee = new Employee (
-                this,
                 getEmployeeCount(),
                 newFirstName,
                 newMiddleName,
@@ -113,56 +116,12 @@ class Company {
         employees.put(currEmployeeNumber, newEmployee);
     }
 
-    public void editEmployeeData(Scanner scanner /*temp scanner until GUI*/) {
-        //for testing, can only edit last name, pay type, dependents, medical coverage, and base pay
-        Employee editEmployee = employeeSearch(scanner);
-
-        System.out.println("You are editing:");
-        editEmployee.getEmployeeInfo();
-
-        System.out.println("Which field would you like to change? Enter quit if you are done editing.");
-        String editData = scanner.nextLine();        
-
-        while(!editData.equals("quit")){
-            System.out.println("Enter new " + editData);
-            String newData = scanner.nextLine();
-
-            if(editData.equals("last name")){
-               editEmployee.setLastName(newData);
-            }
-            else if(editData.equals("pay type")){
-               editEmployee.setPayType(newData);
-            }
-            else if(editData.equals("dependents")){
-                int newDependents = Integer.parseInt(newData);
-                editEmployee.setDependents(newDependents);
-            }
-            else if(editData.equals("medical coverage")){
-               editEmployee.setMedicalCoverageType(newData);
-            }
-            else if(editData.equals("base pay")){
-                Double newPay = Double.parseDouble(newData);
-                editEmployee.setBasePay(newPay);
-            }
-            else {
-                System.out.println("Invalid entry. Try again.");
-            }
-
-            System.out.println("If you would like, enter another field to edit. Or enter quit to finish.");
-            editData = scanner.nextLine();
-        }
-        
-    }
-    
     public void editTimeClock(Scanner scanner, Dates dates) {
         Employee editEmployee = employeeSearch(scanner);
         editEmployee.editTimePunch(scanner, dates);
     }
 
-    public Employee employeeSearch(Scanner scanner /*temp scanner until GUI*/) {
-        System.out.println("Enter employee ID");
-        int searchID = scanner.nextInt();
-        scanner.nextLine();
+    public Employee employeeSearch(int searchID) {
         return employees.get(searchID);
     }
 

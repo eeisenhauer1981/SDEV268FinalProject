@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 
 
 public class EmployeeMainMenuScreen {
-    public Parent getView(MainApp app) {
+    public Parent getView(MainApp app, Company company) {
 
         Label title = new Label("Employee Menu");
 
@@ -19,7 +19,8 @@ public class EmployeeMainMenuScreen {
         Button calculatePayButton = new Button("View Estimated Pay Check");
 
         editTimeCardButton.setOnAction(e -> {
-            app.showEditTimeCard();
+            Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+            app.showEditTimeCard(foundEmployee);
         });
 
         editPTOButton.setOnAction(e -> {
