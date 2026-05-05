@@ -1,0 +1,12 @@
+Alayna	Lynn	Ruth		MGMT	President	TRUE	2015-06-07	Salary	302400	1970-05-06	Female	944 Straford Park		Fort Wayne	IN	46802	3	Family	
+Benjamin	Scott	Price		DIS	Driver	TRUE	2016-08-29	Hourly	18.5	1989-04-12	Male	250 Cherry St		Huntington	IN	46750	0	Single	
+Liam	Joseph	Reynolds	III	PRD	Line Worker	TRUE	2017-03-06	Hourly	26.5	1984-01-03	Male	998 Meadow Ln	B	Huntertown	IN	46748	0	Single	
+Noah	Michael	Turner		PRD	Operator	TRUE	2018-10-01	Hourly	38.5	1986-12-01	Male	1845 Reed Rd		Huntertown	IN	46748	1	Family	
+Ava		Simmons		PRD	Manager	TRUE	2019-04-22	Salary	62450	1993-05-18	Female	3108 Liberty Mills Rd		Fort Wayne	IN	46804	2	Family	
+Olivia	Rae	Bennett		HR	Director	FALSE	2020-09-14	Salary	74325	1988-11-22	Female	5510 Covington Rd		Fort Wayne	IN	46804	2	Family	
+Mason	Lee	Carter		DIS	Director	TRUE	2021-06-07	Salary	102400	1991-03-14	Male	1428 Maple Grove Dr		Fort Wayne	IN	46802	1	Family	
+Emma	Clare	Hughes		PRD	Line Worker	FALSE	2021-11-15	Hourly	24.95	1990-09-09	Female	417 Birchwood Ct		Decatur	IN	46733	2	Family	
+Charlotte	Ann	Brooks		PRD	Director	TRUE	2022-03-21	Salary	101575	1994-10-31	Female	88 Lincoln Ave		Garrett	IN	46738	1	Single	
+Morgan	Elise	Harper		DIS	Warehouse Coordinator	TRUE	2022-07-18	Hourly	42.75	1997-08-27	Female	1609 Parkview Dr		New Haven	IN	46773	3	Family	
+Ethan	James	Foster	Jr.	HR	Director	TRUE	2023-01-09	Salary	75825	1995-07-03	Male	7621 Trier Rd	Apt. 204	Decatur	IN	46733	0	Single	
+Sophia	Marie	Griffin		DIS	Customer Service	TRUE	2024-02-05	Hourly	18	1996-02-25	Female	601 Westgate Blvd		Auburn	IN	46706	2	Single	

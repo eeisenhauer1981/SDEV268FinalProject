@@ -21,7 +21,7 @@ public class LoginScreen {
         //buttons
         Button loginAdminButton = new Button("Login as Admin");
         Button loginEmployeeButton = new Button("Login as Employee");
-        Button exitButton = new Button("Login as Employee");
+        Button exitButton = new Button("Exit");
 
         loginAdminButton.setOnAction(e -> {
             String username = usernameField.getText();

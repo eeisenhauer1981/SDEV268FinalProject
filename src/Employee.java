@@ -192,7 +192,6 @@ class Employee {
 
     public Double getHoursWorked(Dates dates) { 
         ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
-        System.out.println(payPeriod);
         Double totalHours = 0.0;
         for (int i = 0; i < 7; i++) {
             if(timeClock.containsKey(payPeriod.get(i))){
@@ -203,7 +202,6 @@ class Employee {
     }
     public int getPTODays(Dates dates) { 
         ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
-        System.out.println(payPeriod);
         int totalDaysOff = 0;
         for (int i = 0; i < 7; i++) {
             if(PTOList.containsKey(payPeriod.get(i))){
@@ -279,10 +277,4 @@ class Employee {
         }
     }
 
-    //display functions
-    
-
-    public void printTimeRecords() {
-        System.out.println(timeClock);
-    }
 }

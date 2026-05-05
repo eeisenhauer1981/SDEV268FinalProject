@@ -1,5 +1,6 @@
 import javafx.scene.Parent;
 import java.time.LocalDate;
+import java.time.Period;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -11,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class AddEmployeeScreen {
 
@@ -89,15 +92,48 @@ public class AddEmployeeScreen {
             boolean active = activeCheckBox.isSelected();
             LocalDate hireDate = hireDatePicker.getValue();
             String payType = payTypeBox.getValue();
-            double basePay = Double.parseDouble(basePayField.getText());
-            LocalDate dateOfBirth = birthDatePicker.getValue();
+            double basePay;
+            try {
+                basePay = Double.parseDouble(basePayField.getText());
+            }
+            catch(NumberFormatException x) {
+                Alert basePayAlert = new Alert(AlertType.ERROR);
+                basePayAlert.setTitle("Invalid Input");
+                basePayAlert.setContentText("Base Pay must be a valid dollar amount.");
+                basePayAlert.showAndWait();
+                return;
+            }
+            LocalDate validateBirthdate = birthDatePicker.getValue();
+            LocalDate today = LocalDate.now();
+            int age = Period.between(validateBirthdate, today).getYears();
+            LocalDate dateOfBirth;
+            if(age >= 18) {
+                dateOfBirth = validateBirthdate;
+            }
+            else {
+                Alert underageAlert = new Alert(AlertType.ERROR);
+                underageAlert.setTitle("Invalid Input");
+                underageAlert.setContentText("Review employee Birth Date. Employee must be at least 18 years old.");
+                underageAlert.showAndWait();
+                return;
+            }
             String gender = genderBox.getValue();
             String address1 = address1Field.getText();
             String address2 = address2Field.getText();
             String city = cityField.getText();
             String state = stateField.getText();
             String zip = zipField.getText();
-            int dependents = Integer.parseInt(dependentsField.getText());
+            int dependents;
+            try {
+                dependents = Integer.parseInt(dependentsField.getText());
+            }
+            catch(NumberFormatException y) {
+                Alert dependentAlert = new Alert(AlertType.ERROR);
+                dependentAlert.setTitle("Invalid Input");
+                dependentAlert.setContentText("Dependent count must be a whole number or 0.");
+                dependentAlert.showAndWait();
+                return;
+            }
             String medicalCoverageType = medicalCoverageBox.getValue();
 
             company.createNewEmployee(

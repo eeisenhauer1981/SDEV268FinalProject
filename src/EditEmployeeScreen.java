@@ -1,5 +1,6 @@
 import javafx.scene.Parent;
 import java.time.LocalDate;
+import java.time.Period;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -11,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class EditEmployeeScreen {
     public Parent getView(MainApp app, Company company, Employee editEmployee) {
@@ -96,6 +99,7 @@ public class EditEmployeeScreen {
         medicalCoverageBox.setValue(editEmployee.getMedicalCoverageType());
         
         Button submitButton = new Button("Submit Changes");
+        Button deleteButton = new Button("Delete Employee");
 
         submitButton.setOnAction(e -> {
             editEmployee.setFirstName(firstNameField.getText());
@@ -107,18 +111,55 @@ public class EditEmployeeScreen {
             editEmployee.setActive(activeCheckBox.isSelected());
             editEmployee.setHiredate(hireDatePicker.getValue());
             editEmployee.setPayType(payTypeBox.getValue());
-            editEmployee.setBasePay(Double.parseDouble(basePayField.getText()));
-            editEmployee.setDateOfBirth(birthDatePicker.getValue());
+            try {
+                editEmployee.setBasePay(Double.parseDouble(basePayField.getText()));
+            }
+            catch(NumberFormatException x) {
+                Alert basePayAlert = new Alert(AlertType.ERROR);
+                basePayAlert.setTitle("Invalid Input");
+                basePayAlert.setContentText("Base Pay must be a valid dollar amount.");
+                basePayAlert.showAndWait();
+                return;
+            }
+            LocalDate validateBirthdate = birthDatePicker.getValue();
+            LocalDate today = LocalDate.now();
+            int age = Period.between(validateBirthdate, today).getYears();
+            if(age >= 18) {
+                editEmployee.setDateOfBirth(validateBirthdate);
+            }
+            else {
+                Alert underageAlert = new Alert(AlertType.ERROR);
+                underageAlert.setTitle("Invalid Input");
+                underageAlert.setContentText("Review employee Birth Date. Employee must be at least 18 years old.");
+                underageAlert.showAndWait();
+                return;
+            }
             editEmployee.setGender(genderBox.getValue());
             editEmployee.setAddress1(address1Field.getText());
             editEmployee.setAddress2(address2Field.getText());
             editEmployee.setCity(cityField.getText());
             editEmployee.setState(stateField.getText());
             editEmployee.setZip(zipField.getText());
-            editEmployee.setDependents(Integer.parseInt(dependentsField.getText()));
+            try{
+                editEmployee.setDependents(Integer.parseInt(dependentsField.getText()));
+            }
+            catch(NumberFormatException y) {
+                Alert dependentAlert = new Alert(AlertType.ERROR);
+                dependentAlert.setTitle("Invalid Input");
+                dependentAlert.setContentText("Dependent count must be a whole number or 0.");
+                dependentAlert.showAndWait();
+                return;
+            }
             editEmployee.setMedicalCoverageType(medicalCoverageBox.getValue());
 
             app.showSuccessfulAction("Employee successfully edited");
+        });
+
+        deleteButton.setOnAction(e -> {
+           int deleteEmployeeID = editEmployee.getEmployeeID();
+           company.employees.remove(deleteEmployeeID);
+           
+           app.showSuccessfulAction("Employee successfully deleted");
         });
 
 

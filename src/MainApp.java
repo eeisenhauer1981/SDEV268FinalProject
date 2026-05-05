@@ -3,6 +3,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import java.time.LocalDate;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class MainApp extends Application {
     private Company company = new Company("Marshmallow Haven");
@@ -13,12 +17,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) {
         
-        Employee testEmployee1 = new Employee(1, "Mary", "J", "Tester", "", "MGMT", "JobTitle", true, LocalDate.of(2023, 03, 17), "Salary", 55251.00, LocalDate.of(1999, 01, 01), "Female", "111 Address", "", "Fort Wayne", "IN", "46804", 3, "Family", "MaryTester1@MarshmallowHaven.com");
-        company.increaseEmployeeCount();
-        company.addEmployee(1, testEmployee1);
-        Employee testEmployee2 = new Employee(2, "Jack", "F", "Employee", "", "DIS", "JobTitle2", true, LocalDate.of(2026, 07, 24), "Hourly", 55.25, LocalDate.of(2003, 02, 02), "Male", "555 Address", "Apt. 2", "Fort Wayne", "IN", "46801", 0, "Single", "JackEmployee2@MarshmallowHaven.com");
-        company.increaseEmployeeCount();
-        company.addEmployee(2, testEmployee2);
+        loadDemoEmployees();
         String adminHashPassword = SecurityUtil.hashMD5("Adm1n!");
         User adminUser = new User("HR0001", adminHashPassword, Role.ADMIN, -1, true);
         AuthenticationManager.addUser("HR0001", adminUser);
@@ -29,6 +28,55 @@ public class MainApp extends Application {
 
         stage.setTitle("SDEV268 Payroll App");
         stage.show();
+    }
+
+    public void loadDemoEmployees() {
+        try (InputStream is = getClass().getResourceAsStream("/Payroll Project Load Employees - Emily Eisenhauer.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+        
+            String employeeData;
+
+            if (is == null) {
+                throw new RuntimeException("File not found in resources!");
+            }
+
+            while ((employeeData = reader.readLine()) != null) {
+                String[] dataFields = employeeData.split("\t");
+            
+                String newFirstName = dataFields[0];
+                String newMiddleName = dataFields[1];
+                String newLastName = dataFields[2];
+                String newSuffix = dataFields[3];
+                String newDepartment = dataFields[4];
+                String newJobTitle = dataFields[5];
+                boolean newActive = Boolean.parseBoolean(dataFields[6]);
+                LocalDate newHireDate = LocalDate.parse(dataFields[7]);
+                String newPayType = dataFields[8];
+                double newBasePay = Double.parseDouble(dataFields[9]);
+                LocalDate newBirthDate = LocalDate.parse(dataFields[10]);
+                String newGender = dataFields[11];
+                String newAddress1 = dataFields[12];
+                String newAddress2 = dataFields[13];
+                String newCity = dataFields[14];
+                String newState = dataFields[15];
+                String newZip = dataFields[16];
+                int newDependents = Integer.parseInt(dataFields[17]);
+                String newMedicalCoverage = dataFields[18];
+
+                company.increaseEmployeeCount();
+                String newEmailAddress = company.createEmailAddress(newFirstName, newLastName, company.getEmployeeCount());
+                Employee newEmployee = new Employee(company.getEmployeeCount(), newFirstName, newMiddleName, newLastName, newSuffix, newDepartment, newJobTitle, newActive, newHireDate, newPayType, newBasePay, newBirthDate, newGender, newAddress1, newAddress2, newCity, newState, newZip, newDependents, newMedicalCoverage, newEmailAddress);
+                company.addEmployee(company.getEmployeeCount(), newEmployee);
+            }
+            System.out.println("Employees loaded");
+            reader.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        
+
     }
 
     public void showLogin() {
