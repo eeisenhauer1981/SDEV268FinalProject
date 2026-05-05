@@ -25,7 +25,7 @@ public class EmployeeSearchScreen {
             }
 
             if(sender.equals("EditTime")) {
-                app.showEditTimeCard(foundEmployee);
+                app.showEditTimeCard(foundEmployee, "Admin");
             }
         });
 

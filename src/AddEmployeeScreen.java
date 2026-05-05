@@ -157,7 +157,7 @@ public class AddEmployeeScreen {
                 dependents,
                 medicalCoverageType);
             
-            app.showSuccessfulAction("Employee successfully added");
+            app.showSuccessfulAdminAction("Employee successfully added");
         });
 
 

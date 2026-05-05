@@ -4,10 +4,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class FailedActionScreen {
+public class SuccessfulAdminActionScreen {
     public Parent getView(MainApp app, String message) {
         //no access message
-        Label successLabel = new Label("Action cannot be completed: " + message);
+        Label successLabel = new Label("Successful entry: " + message);
     
         //option buttons
         Button returnToAdminMenuButton = new Button("Return to Admin Main Menu");

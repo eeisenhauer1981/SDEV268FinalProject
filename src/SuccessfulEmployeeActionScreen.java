@@ -4,17 +4,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class SuccessfulActionScreen {
+public class SuccessfulEmployeeActionScreen {
     public Parent getView(MainApp app, String message) {
         //no access message
         Label successLabel = new Label("Successful entry: " + message);
     
         //option buttons
-        Button returnToAdminMenuButton = new Button("Return to Admin Main Menu");
+        Button returnToAdminMenuButton = new Button("Return to Employee Main Menu");
         Button exitButton = new Button("Exit");
 
         returnToAdminMenuButton.setOnAction(e -> {
-            app.showAdminMainMenu();
+            app.showEmployeeMainMenu();
         });
             
         exitButton.setOnAction(e -> {

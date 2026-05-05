@@ -152,14 +152,14 @@ public class EditEmployeeScreen {
             }
             editEmployee.setMedicalCoverageType(medicalCoverageBox.getValue());
 
-            app.showSuccessfulAction("Employee successfully edited");
+            app.showSuccessfulAdminAction("Employee successfully edited");
         });
 
         deleteButton.setOnAction(e -> {
            int deleteEmployeeID = editEmployee.getEmployeeID();
            company.employees.remove(deleteEmployeeID);
            
-           app.showSuccessfulAction("Employee successfully deleted");
+           app.showSuccessfulAdminAction("Employee successfully deleted");
         });
 
 

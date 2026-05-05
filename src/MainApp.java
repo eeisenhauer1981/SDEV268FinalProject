@@ -123,9 +123,9 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
-    public void showEditTimeCard(Employee punchEmployee) {
+    public void showEditTimeCard(Employee punchEmployee, String source) {
         EditTimeCardScreen editTimeCard = new EditTimeCardScreen();
-        Scene scene = new Scene(editTimeCard.getView(this, company, dates, punchEmployee), 400, 300);
+        Scene scene = new Scene(editTimeCard.getView(this, company, dates, punchEmployee, source), 400, 300);
         primaryStage.setScene(scene);
     }
 
@@ -156,8 +156,14 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
-    public void showSuccessfulAction(String message) {
-        SuccessfulActionScreen success = new SuccessfulActionScreen();
+    public void showSuccessfulAdminAction(String message) {
+        SuccessfulAdminActionScreen success = new SuccessfulAdminActionScreen();
+        Scene scene = new Scene(success.getView(this, message), 400, 300);
+        primaryStage.setScene(scene);
+    }
+
+    public void showSuccessfulEmployeeAction(String message) {
+        SuccessfulEmployeeActionScreen success = new SuccessfulEmployeeActionScreen();
         Scene scene = new Scene(success.getView(this, message), 400, 300);
         primaryStage.setScene(scene);
     }

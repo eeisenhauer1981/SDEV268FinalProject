@@ -20,7 +20,7 @@ public class EmployeeMainMenuScreen {
 
         editTimeCardButton.setOnAction(e -> {
             Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
-            app.showEditTimeCard(foundEmployee);
+            app.showEditTimeCard(foundEmployee, "Employee");
         });
 
         editPTOButton.setOnAction(e -> {
