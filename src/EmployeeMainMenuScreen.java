@@ -17,6 +17,7 @@ public class EmployeeMainMenuScreen {
         Button editTimeCardButton = new Button("Edit Your Time Card");
         Button editPTOButton = new Button("Edit PTO");
         Button calculatePayButton = new Button("View Estimated Pay Check");
+        Button exitButton = new Button("Exit");
 
         editTimeCardButton.setOnAction(e -> {
             Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
@@ -24,11 +25,16 @@ public class EmployeeMainMenuScreen {
         });
 
         editPTOButton.setOnAction(e -> {
-            app.showEditPTO();
+            Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+            app.showEditPTO(foundEmployee, "Employee");
         });
 
         calculatePayButton.setOnAction(e -> {
             app.showCalculatePay();
+        });
+
+        exitButton.setOnAction(e -> {
+            System.exit(0);
         });
 
         VBox layout = new VBox(10, title);
@@ -36,7 +42,8 @@ public class EmployeeMainMenuScreen {
             instructionsLabel,
             editTimeCardButton,
             editPTOButton,
-            calculatePayButton
+            calculatePayButton,
+            exitButton
         );
 
         return layout;

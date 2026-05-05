@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+
 public class MainApp extends Application {
     private Company company = new Company("Marshmallow Haven");
     private Dates dates = new Dates();
@@ -21,7 +22,7 @@ public class MainApp extends Application {
         String adminHashPassword = SecurityUtil.hashMD5("Adm1n!");
         User adminUser = new User("HR0001", adminHashPassword, Role.ADMIN, -1, true);
         AuthenticationManager.addUser("HR0001", adminUser);
-
+    
         this.primaryStage = stage;
 
         showLogin();
@@ -129,8 +130,10 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
-    public void showEditPTO() {
-        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Edit PTO Placeholder"), 400, 300));
+    public void showEditPTO(Employee PTOEmployee, String source) {
+        EditPTOScreen editPTO = new EditPTOScreen();
+        Scene scene = new Scene(editPTO.getView(this, company, dates, PTOEmployee, source), 400, 300);
+        primaryStage.setScene(scene);
     }
 
     public void showReviewPayroll() {
@@ -146,7 +149,9 @@ public class MainApp extends Application {
     }
 
     public void showViewAppInfo() {
-        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Show App Info Placeholder"), 400, 300));
+        AppInfoScreen appInfo = new AppInfoScreen();
+        Scene scene = new Scene(appInfo.getView(this, company), 400, 300);
+        primaryStage.setScene(scene);
     }
 
     //message screens

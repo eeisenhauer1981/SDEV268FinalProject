@@ -116,11 +116,6 @@ class Company {
         employees.put(currEmployeeNumber, newEmployee);
     }
 
-    public void editTimeClock(Scanner scanner, Dates dates) {
-        Employee editEmployee = employeeSearch(scanner);
-        editEmployee.editTimePunch(scanner, dates);
-    }
-
     public Employee employeeSearch(int searchID) {
         return employees.get(searchID);
     }

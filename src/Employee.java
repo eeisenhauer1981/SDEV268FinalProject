@@ -118,7 +118,6 @@ class Employee {
 
     public void setMedicalCoverageType(String medicalCoverageType) {this.medicalCoverageType = medicalCoverageType;}
 
-
     public void setTimePunch(LocalDate punchDate, Double hoursWorked) {
         timeClock.put(punchDate, hoursWorked);
     }
@@ -242,39 +241,15 @@ class Employee {
         }
     }
 
-    public void newPTO(Scanner scanner, Dates dates){
-        System.out.println("Enter start date as YYYY-MM-dd");
-        String dateString = scanner.nextLine();
-        //enter first date off
-        LocalDate PTOStartDate = LocalDate.parse(dateString);
-        //make sure date is current
-        if(PTOStartDate.isAfter(LocalDate.now()) || PTOStartDate.isEqual(LocalDate.now())) {
-            //get number of consecutive days off
-            System.out.println("Enter number of days off");
-            int daysOff = scanner.nextInt();
-            scanner.nextLine();
-
-            //add days off to employee PTO ArrayList
-            for (LocalDate i = PTOStartDate; i.isBefore(PTOStartDate.plusDays(daysOff)); i.plusDays(1))
-                setPTO(i, 1);
-        }
-        else {
-            System.out.println("You cannot request time off for past dates");
+    public void newPTO(LocalDate PTOStartDate, int daysOff){
+        for (LocalDate i = PTOStartDate; i.isBefore(PTOStartDate.plusDays(daysOff)); i=i.plusDays(1)) {
+            setPTO(i, 1);
         }
     }
 
-    public void deletePTO(Scanner scanner, Dates dates){
-        System.out.println("Enter date as YYYY-MM-dd");
-        String dateString = scanner.nextLine();
-        LocalDate PTODate = LocalDate.parse(dateString);
-
-        if(PTOList.containsKey(PTODate)) {                
-            PTOList.remove(PTODate);
-            System.out.println("Day off removed on " + PTODate);
-        }
-        else {
-            System.out.println("No PTO was entered for " + PTODate);
+    public void deletePTO(LocalDate PTOStartDate, int daysOff){
+        for (LocalDate i = PTOStartDate; i.isBefore(PTOStartDate.plusDays(daysOff)); i=i.plusDays(1)) {
+            PTOList.remove(i);
         }
     }
-
 }

@@ -17,9 +17,11 @@ public class AdminMainMenuScreen {
         Button addEmployeeButton = new Button("Add New Employee");
         Button editEmployeeButton = new Button("Edit Employee Information");
         Button editTimeCardButton = new Button("Edit Employee Time Card");
+        Button editPTOButton = new Button("Edit Employee PTO");
         Button reviewPayrollButton = new Button("Review Employee Payroll Information");
         Button processPayrollButton = new Button("Process Payroll");
         Button viewAppInfoButton = new Button("Payroll App Information");
+        Button exitButton = new Button("Exit");
 
         viewEmployeesButton.setOnAction(e -> {
             app.showViewEmployees();
@@ -37,6 +39,10 @@ public class AdminMainMenuScreen {
             app.showEmployeeSearch("EditTime");
         });
 
+        editPTOButton.setOnAction(e -> {
+            app.showEmployeeSearch("EditPTO");
+        });
+
         reviewPayrollButton.setOnAction(e -> {
             app.showReviewPayroll();
         });
@@ -49,6 +55,10 @@ public class AdminMainMenuScreen {
             app.showViewAppInfo();
         });
 
+        exitButton.setOnAction(e -> {
+            System.exit(0);
+        });
+
         VBox layout = new VBox(10, title);
         layout.getChildren().addAll(
             instructionsLabel,
@@ -56,9 +66,11 @@ public class AdminMainMenuScreen {
             addEmployeeButton,
             editEmployeeButton,
             editTimeCardButton,
+            editPTOButton,
             reviewPayrollButton,
             processPayrollButton,
-            viewAppInfoButton
+            viewAppInfoButton,
+            exitButton
         );
 
         return layout;

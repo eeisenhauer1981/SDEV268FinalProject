@@ -27,6 +27,10 @@ public class EmployeeSearchScreen {
             if(sender.equals("EditTime")) {
                 app.showEditTimeCard(foundEmployee, "Admin");
             }
+
+            if(sender.equals("EditPTO")) {
+                app.showEditPTO(foundEmployee, "Admin");
+            }
         });
 
         VBox layout = new VBox(10, title);
