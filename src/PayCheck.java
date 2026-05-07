@@ -30,7 +30,7 @@ class PayCheck {
     public void calculatePayCheck() {
         dependentStipend = calculateDependentStipend(payTo);
         medicalDeduction = calculateMedicalDeduction(payTo);
-        if(payTo.getPayType() == "Hourly") {
+        if(payTo.getPayType().endsWith("Hourly")) {
             grossPay = calculateHourlyWorkPay(payTo) + dependentStipend;
         }
         else {
@@ -78,7 +78,7 @@ class PayCheck {
 
     public double calculateMedicalDeduction(Employee payTo) {
         
-        if (payTo.getMedicalCoverageType() == "Single") {
+        if (payTo.getMedicalCoverageType().equals("Single")) {
             return 50.0;
         } 
         else {
@@ -151,19 +151,36 @@ class PayCheck {
         }
     }
 
-    //print paycheck info
-    public void printPaycheck(){
-        System.out.println("Check Number: " + checkNumber);
-        System.out.println("Pay Date: " + checkDate);
-        payTo.getEmailAddress();
-        System.out.println("Dependent Stipend: " + dependentStipend);
-        System.out.println("Medical Deduction: " + medicalDeduction);
-        System.out.println("State Tax: " + stateTax);
-        System.out.println("Federal Tax: " + federalTax);
-        System.out.println("Social Security: " + socialSecurity);
-        System.out.println("Medicare: " + medicare);
-        System.out.println("Gross Pay: " + grossPay);
-        System.out.println("Net Pay: " + netPay);
+    //output paycheck info
+    public String getPaycheckInfo(){
+        return  payFrom + " Check Number: " + checkNumber + "\n"
+                + "Pay Date: " + checkDate + "\n"
+                + "Pay To: " + payTo.getFirstName() + " " + payTo.getMiddleName() + " " + payTo.getLastName() + " " + payTo.getSuffix() + "\n"
+                + "Dependent Stipend: " + dependentStipend + "\n"
+                + "Medical Deduction: " + medicalDeduction + "\n"
+                + "State Tax: " + stateTax + "\n"
+                + "Federal Tax: " + federalTax + "\n"
+                + "Social Security: " + socialSecurity + "\n"
+                + "Medicare: " + medicare + "\n"
+                + "Gross Pay: " + grossPay + "\n"
+                + "Net Pay: " + netPay + "\n";
+    }
+
+    public String savePaycheckInfo(){
+        return  checkNumber + ","
+                + checkDate + ","
+                + payTo.getFirstName() + "," 
+                + payTo.getMiddleName() + ","
+                + payTo.getLastName() + ","
+                + payTo.getSuffix() + ","
+                + dependentStipend + ","
+                + medicalDeduction + ","
+                + stateTax + ","
+                + federalTax + ","
+                + socialSecurity + ","
+                + medicare + ","
+                + grossPay + ","
+                + netPay;
     }
 
 }  

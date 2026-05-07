@@ -1,6 +1,9 @@
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Collection;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 class Company {
     String name;
@@ -46,6 +49,10 @@ class Company {
 
     public Collection<Employee> getEmployees() {
         return employees.values();
+    }
+
+    public Collection<PayCheck> getinProcessChecks() {
+        return inProcessChecks.values();
     }
 
     //doer functions
@@ -138,8 +145,23 @@ class Company {
     }
 
     public void addApprovedPayChecks() {
+        printerPayCheckFile();
         paychecks.putAll(inProcessChecks);
         inProcessChecks.clear();
+    }
+
+    public void printerPayCheckFile() {
+        String fileName = name+ "_" + LocalDate.now() + "_Paychecks.txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            for (PayCheck payCheck : inProcessChecks.values()) {
+                writer.write(payCheck.savePaycheckInfo());
+                writer.newLine();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

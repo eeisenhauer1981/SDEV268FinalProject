@@ -19,6 +19,7 @@ public class MainApp extends Application {
     public void start(Stage stage) {
         
         loadDemoEmployees();
+        addDemoTimes();
         String adminHashPassword = SecurityUtil.hashMD5("Adm1n!");
         User adminUser = new User("HR0001", adminHashPassword, Role.ADMIN, -1, true);
         AuthenticationManager.addUser("HR0001", adminUser);
@@ -29,56 +30,7 @@ public class MainApp extends Application {
 
         stage.setTitle("SDEV268 Payroll App");
         stage.show();
-    }
-
-    public void loadDemoEmployees() {
-        try (InputStream is = getClass().getResourceAsStream("/Payroll Project Load Employees - Emily Eisenhauer.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-        
-            String employeeData;
-
-            if (is == null) {
-                throw new RuntimeException("File not found in resources!");
-            }
-
-            while ((employeeData = reader.readLine()) != null) {
-                String[] dataFields = employeeData.split("\t");
-            
-                String newFirstName = dataFields[0];
-                String newMiddleName = dataFields[1];
-                String newLastName = dataFields[2];
-                String newSuffix = dataFields[3];
-                String newDepartment = dataFields[4];
-                String newJobTitle = dataFields[5];
-                boolean newActive = Boolean.parseBoolean(dataFields[6]);
-                LocalDate newHireDate = LocalDate.parse(dataFields[7]);
-                String newPayType = dataFields[8];
-                double newBasePay = Double.parseDouble(dataFields[9]);
-                LocalDate newBirthDate = LocalDate.parse(dataFields[10]);
-                String newGender = dataFields[11];
-                String newAddress1 = dataFields[12];
-                String newAddress2 = dataFields[13];
-                String newCity = dataFields[14];
-                String newState = dataFields[15];
-                String newZip = dataFields[16];
-                int newDependents = Integer.parseInt(dataFields[17]);
-                String newMedicalCoverage = dataFields[18];
-
-                company.increaseEmployeeCount();
-                String newEmailAddress = company.createEmailAddress(newFirstName, newLastName, company.getEmployeeCount());
-                Employee newEmployee = new Employee(company.getEmployeeCount(), newFirstName, newMiddleName, newLastName, newSuffix, newDepartment, newJobTitle, newActive, newHireDate, newPayType, newBasePay, newBirthDate, newGender, newAddress1, newAddress2, newCity, newState, newZip, newDependents, newMedicalCoverage, newEmailAddress);
-                company.addEmployee(company.getEmployeeCount(), newEmployee);
-                
-            }
-            reader.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        
-
-    }
+    }    
 
     public void showLogin() {
         LoginScreen login = new LoginScreen();
@@ -89,7 +41,7 @@ public class MainApp extends Application {
     //main menu screens
     public void showAdminMainMenu() {
         AdminMainMenuScreen adminMainMenu = new AdminMainMenuScreen();
-        Scene scene = new Scene(adminMainMenu.getView(this), 400, 300);
+        Scene scene = new Scene(adminMainMenu.getView(this, company), 400, 300);
         primaryStage.setScene(scene);
     }
 
@@ -137,11 +89,9 @@ public class MainApp extends Application {
     }
 
     public void showReviewPayroll() {
-        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Review Payroll Placeholder"), 400, 300));
-    }
-
-    public void showProcessPayroll() {
-        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Process Payroll Placeholder"), 400, 300));
+        ReviewPayrollScreen reviewPayroll = new ReviewPayrollScreen();
+        Scene scene = new Scene(reviewPayroll.getView(this, company), 400, 300);
+        primaryStage.setScene(scene);
     }
 
     public void showCalculatePay() {
@@ -171,6 +121,68 @@ public class MainApp extends Application {
         SuccessfulEmployeeActionScreen success = new SuccessfulEmployeeActionScreen();
         Scene scene = new Scene(success.getView(this, message), 400, 300);
         primaryStage.setScene(scene);
+    }
+
+    public void loadDemoEmployees() {
+        try (InputStream is = getClass().getResourceAsStream("/Payroll Project Load Employees - Emily Eisenhauer.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+        
+            String employeeData;
+
+            if (is == null) {
+                throw new RuntimeException("File not found in resources!");
+            }
+
+            while ((employeeData = reader.readLine()) != null) {
+                String[] dataFields = employeeData.split("\t");
+            
+                String newFirstName = dataFields[0];
+                String newMiddleName = dataFields[1];
+                String newLastName = dataFields[2];
+                String newSuffix = dataFields[3];
+                String newDepartment = dataFields[4];
+                String newJobTitle = dataFields[5];
+                boolean newActive = Boolean.parseBoolean(dataFields[6]);
+                LocalDate newHireDate = LocalDate.parse(dataFields[7]);
+                String newPayType = dataFields[8];
+                double newBasePay = Double.parseDouble(dataFields[9]);
+                LocalDate newBirthDate = LocalDate.parse(dataFields[10]);
+                String newGender = dataFields[11];
+                String newAddress1 = dataFields[12];
+                String newAddress2 = dataFields[13];
+                String newCity = dataFields[14];
+                String newState = dataFields[15];
+                String newZip = dataFields[16];
+                int newDependents = Integer.parseInt(dataFields[17]);
+                String newMedicalCoverage = dataFields[18];
+
+                company.increaseEmployeeCount();
+                String newEmailAddress = company.createEmailAddress(newFirstName, newLastName, company.getEmployeeCount());
+                Employee newEmployee = new Employee(company.getEmployeeCount(), newFirstName, newMiddleName, newLastName, newSuffix, newDepartment, newJobTitle, newActive, newHireDate, newPayType, newBasePay, newBirthDate, newGender, newAddress1, newAddress2, newCity, newState, newZip, newDependents, newMedicalCoverage, newEmailAddress);
+                company.addEmployee(company.getEmployeeCount(), newEmployee);
+                
+            }
+            reader.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addDemoTimes() {
+        Employee entryEmployee = company.employees.get(2);
+        entryEmployee.setTimePunch(LocalDate.of(2026, 04, 27), 6.5);
+        entryEmployee.setTimePunch(LocalDate.of(2026, 04, 28), 6.5);
+        entryEmployee.setTimePunch(LocalDate.of(2026, 04, 29), 6.5);
+
+        entryEmployee = company.employees.get(3);
+        entryEmployee.setTimePunch(LocalDate.of(2026, 04, 25), 6.0);
+        entryEmployee.setTimePunch(LocalDate.of(2026, 04, 26), 8.0);
+        entryEmployee.setTimePunch(LocalDate.of(2026, 04, 27), 10.0);
+
+        entryEmployee = company.employees.get(5);
+        entryEmployee.setPTO(LocalDate.of(2026, 04, 27), 1);
     }
 
     public static void main(String[] args) {

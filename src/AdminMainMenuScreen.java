@@ -5,7 +5,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class AdminMainMenuScreen {
-    public Parent getView(MainApp app) {
+    public Parent getView(MainApp app, Company company) {
 
         Label title = new Label("Admin Menu");
 
@@ -48,7 +48,8 @@ public class AdminMainMenuScreen {
         });
 
         processPayrollButton.setOnAction(e -> {
-            app.showProcessPayroll();
+            company.processPayroll();
+            app.showReviewPayroll();
         });
 
         viewAppInfoButton.setOnAction(e -> {
