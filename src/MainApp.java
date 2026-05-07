@@ -47,7 +47,7 @@ public class MainApp extends Application {
 
     public void showEmployeeMainMenu() {
         EmployeeMainMenuScreen employeeMainMenu = new EmployeeMainMenuScreen();
-        Scene scene = new Scene(employeeMainMenu.getView(this, company), 400, 300);
+        Scene scene = new Scene(employeeMainMenu.getView(this, company, dates), 400, 300);
         primaryStage.setScene(scene);
     }
 
@@ -94,8 +94,10 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
-    public void showCalculatePay() {
-        primaryStage.setScene(new Scene(new javafx.scene.control.Label("Paycheck Calculator Placeholder"), 400, 300));
+    public void showPreviewPaycheck(PayCheck previewPaycheck) {
+        PreviewPaycheckScreen reviewPaycheck = new PreviewPaycheckScreen();
+        Scene scene = new Scene(reviewPaycheck.getView(this, previewPaycheck), 400, 300);
+        primaryStage.setScene(scene);
     }
 
     public void showViewAppInfo() {

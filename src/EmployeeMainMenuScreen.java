@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 
 
 public class EmployeeMainMenuScreen {
-    public Parent getView(MainApp app, Company company) {
+    public Parent getView(MainApp app, Company company, Dates dates) {
 
         Label title = new Label("Employee Menu");
 
@@ -30,7 +30,9 @@ public class EmployeeMainMenuScreen {
         });
 
         calculatePayButton.setOnAction(e -> {
-            app.showCalculatePay();
+            Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+            PayCheck samplePaycheck = new PayCheck (foundEmployee, company, dates);
+            app.showPreviewPaycheck(samplePaycheck);
         });
 
         exitButton.setOnAction(e -> {
