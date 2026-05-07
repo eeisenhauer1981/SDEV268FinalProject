@@ -1,4 +1,4 @@
-#Payroll Processing Program
+# Payroll Processing Program
 
 This project is my final project submission to meet requirements for SDEV268 at Ivy Tech Community College.
 
