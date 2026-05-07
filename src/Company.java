@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Collection;
 
 class Company {
@@ -9,22 +8,18 @@ class Company {
     int employeeCount;
     boolean payrollProcessing;
     User activeUser;
+    Dates dates;
     HashMap<Integer, Employee> employees = new HashMap<>();
+    HashMap<Integer, PayCheck> inProcessChecks = new HashMap<>();
     HashMap<Integer, PayCheck> paychecks = new HashMap<>();
 
-    //Constructors
-    public Company(){
-        this.name = "New Company";
-        this.checkNumber = -1;
-        this.employeeCount = -1;
-        this.payrollProcessing = false;
-    }
-
-    public Company(String newName){
+    //Constructor
+    public Company(String newName, Dates newDates){
         this.name = newName;
         this.checkNumber = 1;
         this.employeeCount = 0;
         this.payrollProcessing = false;
+        this.dates = newDates;
     }
 
     //setters
@@ -58,7 +53,7 @@ class Company {
         return firstName + lastName + employeeID + "@" + getName().replaceAll("\\s", "") + ".com";
     }
 
-    //input new employee information
+    //add new employee 
     public void createNewEmployee(
         String newFirstName,
         String newMiddleName,
@@ -111,7 +106,6 @@ class Company {
         addEmployee(getEmployeeCount(), newEmployee);
     }
     
-    //add employee to company's employee HashMap
     public void addEmployee(int currEmployeeNumber, Employee newEmployee) {
         employees.put(currEmployeeNumber, newEmployee);
     }
@@ -120,8 +114,33 @@ class Company {
         return employees.get(searchID);
     }
 
-    //output functions
-    //loops through employees and outputs each employee's information
-    
+    //process payroll
+    public void processPayroll() {
+        for(int i : employees.keySet()) {
+            if(!employees.get(i).getActive()) {
+                continue;
+            }
+            else {
+                PayCheck newPayCheck = calculatePayCheck(employees.get(i));
+                addPayCheckInProcess(newPayCheck.getCheckNumber(), newPayCheck);
+                increaseCheckNumber();
+            }
+        }
+
+    }
+
+    public PayCheck calculatePayCheck(Employee payEmployee) {
+        return new PayCheck(payEmployee, this, dates);
+    }
+
+    public void addPayCheckInProcess(int checkNumber, PayCheck newPaycheck){
+        inProcessChecks.put(checkNumber, newPaycheck);
+    }
+
+    public void addApprovedPayChecks() {
+        paychecks.putAll(inProcessChecks);
+        inProcessChecks.clear();
+    }
 
 }
+

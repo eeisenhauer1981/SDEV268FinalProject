@@ -1,4 +1,6 @@
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.SortedMap;
 
 class PayCheck {
     private int checkNumber;
@@ -13,27 +15,26 @@ class PayCheck {
     private double preTaxPay;
     private double netPay;
     private Employee payTo;
-    private Company currentCompany;
+    private String payFrom;
 
     public PayCheck(Employee employee, Company company, Dates dates) {
         payTo = employee;
-        currentCompany = company;
-        checkNumber = company.increaseCheckNumber();
+        payFrom = company.getName();
+        checkNumber = company.getCheckNumber();
         checkDate = dates.getCurrentPayDate();
-        calculatePayCheck(dates);        
+        calculatePayCheck();        
     }
 
-    //only calculates for current pay period using payPeriod set in Dates
-    //previous pay period paychecks are saved and can be looked up
-    //current
-    public void calculatePayCheck(Dates dates) {
+    public int getCheckNumber() {return checkNumber;}
+
+    public void calculatePayCheck() {
         dependentStipend = calculateDependentStipend(payTo);
         medicalDeduction = calculateMedicalDeduction(payTo);
         if(payTo.getPayType() == "Hourly") {
-            grossPay = calculateHourlyWorkPay(payTo, dates) + dependentStipend;
+            grossPay = calculateHourlyWorkPay(payTo) + dependentStipend;
         }
         else {
-            grossPay = calculateSalaryWorkPay(payTo, dates) + dependentStipend;
+            grossPay = calculateSalaryWorkPay(payTo) + dependentStipend;
         }
         preTaxPay = grossPay - medicalDeduction;
         stateTax = calculateStateTax(preTaxPay);
@@ -86,31 +87,56 @@ class PayCheck {
     }
 
     //calculate work pay for hourly
-    public double calculateHourlyWorkPay(Employee payTo, Dates dates) {
-        final double MAX_REGULAR_HOURS = 40;
-        double weeklyHours = payTo.getHoursWorked(dates);
+    public double calculateHourlyWorkPay(Employee payTo) {
+        final double MAX_REGULAR_HOURS = 8;
+        SortedMap <LocalDate, Double> weeklyHours = payTo.getHoursWorked();
         double payRate = payTo.getBasePay();
+        double totalPay = 0.0;
 
-        if(weeklyHours <= MAX_REGULAR_HOURS) {
-            return payRate * weeklyHours;
+        for(LocalDate i : weeklyHours.keySet()) {
+            
+            if(!weeklyHours.containsKey(i)) {
+                continue;
+            }
+            else if(weeklyHours.get(i) <= 8 && i.getDayOfWeek() != DayOfWeek.SATURDAY) {
+                double dailyPay = weeklyHours.get(i) * payRate;
+                totalPay = totalPay + dailyPay;
+            }
+            else if (weeklyHours.get(i) > 8 && i.getDayOfWeek() != DayOfWeek.SATURDAY) {
+                double overtimeHours = weeklyHours.get(i) - MAX_REGULAR_HOURS;
+                double overtimePay = calculateOvertimePay(overtimeHours, payRate);
+                double dailyPay = weeklyHours.get(i) * payRate;
+                totalPay = totalPay + dailyPay + overtimePay;
+            }
+            else {
+                double overtimeHours = weeklyHours.get(i);
+                double overtimePay = calculateOvertimePay(overtimeHours, payRate);
+                double dailyPay = weeklyHours.get(i) * payRate;
+                totalPay = totalPay + dailyPay + overtimePay;
+            }
         }
-        else {
-            double straightPay = payRate * weeklyHours;
-            double overtimePay = calculateOvertimePay(weeklyHours, payRate);
-            return straightPay + overtimePay;
-        }
+        return totalPay;
     }
 
-    public double calculateOvertimePay(double weeklyHours, double payRate) {
-        final double MAX_REGULAR_HOURS = 40;
+    public double calculateOvertimePay(double overtimeHours, double payRate) {
         final double OVERTIME_RATE = .5;
-        double overtimeHours = weeklyHours - MAX_REGULAR_HOURS;
         return overtimeHours * payRate * OVERTIME_RATE;
     }
 
     //calculate work pay for salary
-    public double calculateSalaryWorkPay(Employee payTo, Dates dates){
-        int weeklyPTODays = payTo.getPTODays(dates);
+    public double calculateSalaryWorkPay(Employee payTo){
+        SortedMap <LocalDate, Integer> PTODays = payTo.getPTO();
+        int weeklyPTODays = 0;
+
+        for(LocalDate i : PTODays.keySet()) {
+            if(!PTODays.containsKey(i)) {
+                continue;
+            }
+            else {
+                weeklyPTODays = weeklyPTODays + PTODays.get(i);
+            }
+        }
+
         double payRate = payTo.getBasePay();
 
         if(weeklyPTODays == 0) {
@@ -129,7 +155,7 @@ class PayCheck {
     public void printPaycheck(){
         System.out.println("Check Number: " + checkNumber);
         System.out.println("Pay Date: " + checkDate);
-        payTo.printEmployeeInfo();
+        payTo.getEmailAddress();
         System.out.println("Dependent Stipend: " + dependentStipend);
         System.out.println("Medical Deduction: " + medicalDeduction);
         System.out.println("State Tax: " + stateTax);

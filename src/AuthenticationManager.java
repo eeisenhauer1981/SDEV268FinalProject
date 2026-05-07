@@ -23,7 +23,7 @@ public class AuthenticationManager {
 
     //formats employee birthday as string for hashing
     public static String formatBirthday(LocalDate employeeBirthday) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
         return employeeBirthday.format(formatter);
     }
 

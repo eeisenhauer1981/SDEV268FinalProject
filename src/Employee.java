@@ -1,8 +1,9 @@
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.SortedMap;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 class Employee {
     private int employeeID;
@@ -27,8 +28,8 @@ class Employee {
     private String medicalCoverageType;
     private String emailAddress;
     private Role role;    
-    private HashMap<LocalDate, Double> timeClock = new HashMap<>();
-    private HashMap<LocalDate, Integer> PTOList = new HashMap<>();
+    private TreeMap<LocalDate, Double> timeClock = new TreeMap<>();
+    private TreeMap<LocalDate, Integer> PTOList = new TreeMap<>();
 
     //constructor with parameters
     public Employee(
@@ -189,30 +190,23 @@ class Employee {
 
     public Role getRole() {return this.role;};
 
-    public Double getHoursWorked(Dates dates) { 
-        ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
-        Double totalHours = 0.0;
-        for (int i = 0; i < 7; i++) {
-            if(timeClock.containsKey(payPeriod.get(i))){
-                totalHours = totalHours + timeClock.get(payPeriod.get(i));
-            }
-        }
-        return totalHours;
+    public SortedMap<LocalDate, Double> getHoursWorked() { 
+        LocalDate endDate = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
+        LocalDate startDate = endDate.plusDays(-7);
+        SortedMap<LocalDate, Double> hoursWorked = timeClock.subMap(startDate, endDate);
+        return hoursWorked;
     }
-    public int getPTODays(Dates dates) { 
-        ArrayList<LocalDate> payPeriod = dates.getPayPeriod();
-        int totalDaysOff = 0;
-        for (int i = 0; i < 7; i++) {
-            if(PTOList.containsKey(payPeriod.get(i))){
-                totalDaysOff = totalDaysOff + PTOList.get(payPeriod.get(i));
-            }
-        }
-        return totalDaysOff;
+
+    public SortedMap<LocalDate, Integer> getPTO() { 
+        LocalDate endDate = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
+        LocalDate startDate = endDate.plusDays(-7);
+        SortedMap<LocalDate, Integer> weeklyPTO = PTOList.subMap(startDate, endDate);
+        return weeklyPTO;
     }
 
     public String getEmployeeInfo() {
         String empStatus = getActiveString();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String fullAddress = getFullAddress();      
 
         return "Employee ID: " + employeeID + "\n"

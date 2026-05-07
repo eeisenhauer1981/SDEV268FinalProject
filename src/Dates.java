@@ -31,23 +31,26 @@ class Dates {
     }
 
     public void setCurrentPayDate() {
-        currentPayDate = currentPayPeriod.plusWeeks(1);
+        currentPayDate = lastPayPeriod.plusWeeks(1);
     }
 
     public void setPayPeriod(LocalDate baseDate) {
-        LocalDate startOfPeriod = baseDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SATURDAY));
+        LocalDate startOfPeriod = baseDate.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
         for(int i = 0; i < 7; i++) {
             payPeriod.add(i, startOfPeriod);
-            startOfPeriod = startOfPeriod.plusDays(1);
+            startOfPeriod = startOfPeriod.plusDays(-1);
         }
     }
 
     //getter functions
-    public ArrayList<LocalDate> getPayPeriod() {
+    public ArrayList<LocalDate> getPayPeriod(LocalDate baseDate) {
+        setPayPeriod(baseDate);
         return payPeriod;
     }
 
     public LocalDate getCurrentPayDate() {
+        setLastPayPeriod();
+        setCurrentPayDate();
         return currentPayDate;
     }
 

@@ -9,4 +9,3 @@ Emma	Clare	Hughes		PRD	Line Worker	FALSE	2021-11-15	Hourly	24.95	1990-09-09	Fema
 Charlotte	Ann	Brooks		PRD	Director	TRUE	2022-03-21	Salary	101575	1994-10-31	Female	88 Lincoln Ave		Garrett	IN	46738	1	Single	
 Morgan	Elise	Harper		DIS	Warehouse Coordinator	TRUE	2022-07-18	Hourly	42.75	1997-08-27	Female	1609 Parkview Dr		New Haven	IN	46773	3	Family	
 Ethan	James	Foster	Jr.	HR	Director	TRUE	2023-01-09	Salary	75825	1995-07-03	Male	7621 Trier Rd	Apt. 204	Decatur	IN	46733	0	Single	
-Sophia	Marie	Griffin		DIS	Customer Service	TRUE	2024-02-05	Hourly	18	1996-02-25	Female	601 Westgate Blvd		Auburn	IN	46706	2	Single	

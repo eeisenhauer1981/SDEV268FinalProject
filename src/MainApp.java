@@ -10,8 +10,8 @@ import java.io.InputStreamReader;
 
 
 public class MainApp extends Application {
-    private Company company = new Company("Marshmallow Haven");
     private Dates dates = new Dates();
+    private Company company = new Company("Marshmallow Haven", dates);
 
     private Stage primaryStage;
 
@@ -68,8 +68,8 @@ public class MainApp extends Application {
                 String newEmailAddress = company.createEmailAddress(newFirstName, newLastName, company.getEmployeeCount());
                 Employee newEmployee = new Employee(company.getEmployeeCount(), newFirstName, newMiddleName, newLastName, newSuffix, newDepartment, newJobTitle, newActive, newHireDate, newPayType, newBasePay, newBirthDate, newGender, newAddress1, newAddress2, newCity, newState, newZip, newDependents, newMedicalCoverage, newEmailAddress);
                 company.addEmployee(company.getEmployeeCount(), newEmployee);
+                
             }
-            System.out.println("Employees loaded");
             reader.close();
         }
         catch (IOException e) {
