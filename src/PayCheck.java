@@ -1,6 +1,7 @@
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.SortedMap;
+import java.text.DecimalFormat;
 
 class PayCheck {
     private int checkNumber;
@@ -153,34 +154,36 @@ class PayCheck {
 
     //output paycheck info
     public String getPaycheckInfo(){
+        DecimalFormat df = new DecimalFormat("#,###.##");
         return  payFrom + " Check Number: " + checkNumber + "\n"
                 + "Pay Date: " + checkDate + "\n"
                 + "Pay To: " + payTo.getFirstName() + " " + payTo.getMiddleName() + " " + payTo.getLastName() + " " + payTo.getSuffix() + "\n"
-                + "Dependent Stipend: " + dependentStipend + "\n"
-                + "Medical Deduction: " + medicalDeduction + "\n"
-                + "State Tax: " + stateTax + "\n"
-                + "Federal Tax: " + federalTax + "\n"
-                + "Social Security: " + socialSecurity + "\n"
-                + "Medicare: " + medicare + "\n"
-                + "Gross Pay: " + grossPay + "\n"
-                + "Net Pay: " + netPay + "\n";
+                + "Dependent Stipend: $" + df.format(dependentStipend) + "\n"
+                + "Medical Deduction: $" + df.format(medicalDeduction) + "\n"
+                + "State Tax: $" + df.format(stateTax) + "\n"
+                + "Federal Tax: $" + df.format(federalTax) + "\n"
+                + "Social Security: $" + df.format(socialSecurity) + "\n"
+                + "Medicare: $" + df.format(medicare) + "\n"
+                + "Gross Pay: $" + df.format(grossPay) + "\n"
+                + "Net Pay: $" + df.format(netPay) + "\n";
     }
 
     public String savePaycheckInfo(){
+        DecimalFormat df = new DecimalFormat("#,###.##");
         return  checkNumber + ","
                 + checkDate + ","
                 + payTo.getFirstName() + "," 
                 + payTo.getMiddleName() + ","
                 + payTo.getLastName() + ","
                 + payTo.getSuffix() + ","
-                + dependentStipend + ","
-                + medicalDeduction + ","
-                + stateTax + ","
-                + federalTax + ","
-                + socialSecurity + ","
-                + medicare + ","
-                + grossPay + ","
-                + netPay;
+                + df.format(dependentStipend) + ","
+                + df.format(medicalDeduction) + ","
+                + df.format(stateTax) + ","
+                + df.format(federalTax) + ","
+                + df.format(socialSecurity) + ","
+                + df.format(medicare) + ","
+                + df.format(grossPay) + ","
+                + df.format(netPay);
     }
 
 }  
