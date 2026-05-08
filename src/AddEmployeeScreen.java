@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 public class AddEmployeeScreen {
 
     public Parent getView(MainApp app, Company company) {
+        
         //fields to enter new employee data
         Label firstNameLabel = new Label("First Name:");
         TextField firstNameField = new TextField();

@@ -20,13 +20,25 @@ public class EmployeeMainMenuScreen {
         Button exitButton = new Button("Exit");
 
         editTimeCardButton.setOnAction(e -> {
-            Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
-            app.showEditTimeCard(foundEmployee, "Employee");
+            //if payroll is being processed, employees cannot edit time punches
+            if(company.getPayrollProcessing()) {
+                app.showPayrollInProcess();
+            }
+            else {
+                Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+                app.showEditTimeCard(foundEmployee, "Employee");
+            }
         });
 
         editPTOButton.setOnAction(e -> {
-            Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
-            app.showEditPTO(foundEmployee, "Employee");
+            //if payroll is being processed, employees cannot edit PTO
+            if(company.getPayrollProcessing()) {
+                app.showPayrollInProcess();
+            }
+            else {
+                Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+                app.showEditPTO(foundEmployee, "Employee");
+            }
         });
 
         calculatePayButton.setOnAction(e -> {

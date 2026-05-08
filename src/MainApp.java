@@ -1,6 +1,5 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.io.BufferedReader;
@@ -10,16 +9,20 @@ import java.io.InputStreamReader;
 
 
 public class MainApp extends Application {
+    //creates Dates object for verifying payroll and timeclock dates
     private Dates dates = new Dates();
+    //creates a Company object
     private Company company = new Company("Marshmallow Haven", dates);
-
+    //creates a Stage for GUI
     private Stage primaryStage;
 
     @Override
     public void start(Stage stage) {
-        
+        //loads 11 employees from file for demo
         loadDemoEmployees();
+        //loads timeclock entries for some employees for paycheck calculation demo
         addDemoTimes();
+        //creates admin user credentials
         String adminHashPassword = SecurityUtil.hashMD5("Adm1n!");
         User adminUser = new User("HR0001", adminHashPassword, Role.ADMIN, -1, true);
         AuthenticationManager.addUser("HR0001", adminUser);
@@ -32,13 +35,13 @@ public class MainApp extends Application {
         stage.show();
     }    
 
+    //functions to load screens
     public void showLogin() {
         LoginScreen login = new LoginScreen();
         Scene scene = new Scene(login.getView(this, company), 400, 300);
         primaryStage.setScene(scene);
     }
 
-    //main menu screens
     public void showAdminMainMenu() {
         AdminMainMenuScreen adminMainMenu = new AdminMainMenuScreen();
         Scene scene = new Scene(adminMainMenu.getView(this, company), 400, 300);
@@ -51,7 +54,6 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
-    //action screens
     public void showViewEmployees() {
         ViewEmployeesScreen viewEmployees = new ViewEmployeesScreen();
         Scene scene = new Scene(viewEmployees.getView(this, company), 400, 300);
@@ -106,7 +108,6 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
-    //message screens
     public void showNoAccess() {
         NoAccessScreen noAccess = new NoAccessScreen();
         Scene scene = new Scene(noAccess.getView(this), 400, 300);
@@ -125,12 +126,19 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
     }
 
+    public void showPayrollInProcess() {
+        PayrollInProcessScreen inProcess = new PayrollInProcessScreen();
+        Scene scene = new Scene(inProcess.getView(this), 400, 300);
+        primaryStage.setScene(scene);
+    }
+
     public void loadDemoEmployees() {
         try (InputStream is = getClass().getResourceAsStream("/Payroll Project Load Employees - Emily Eisenhauer.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
         
             String employeeData;
 
+            //loops through file and adds new employees
             if (is == null) {
                 throw new RuntimeException("File not found in resources!");
             }
@@ -158,6 +166,7 @@ public class MainApp extends Application {
                 int newDependents = Integer.parseInt(dataFields[17]);
                 String newMedicalCoverage = dataFields[18];
 
+                //company employee count starts at 0 and increases before a new employee is added so that it can be passed as employeeID
                 company.increaseEmployeeCount();
                 String newEmailAddress = company.createEmailAddress(newFirstName, newLastName, company.getEmployeeCount());
                 Employee newEmployee = new Employee(company.getEmployeeCount(), newFirstName, newMiddleName, newLastName, newSuffix, newDepartment, newJobTitle, newActive, newHireDate, newPayType, newBasePay, newBirthDate, newGender, newAddress1, newAddress2, newCity, newState, newZip, newDependents, newMedicalCoverage, newEmailAddress);
@@ -173,6 +182,7 @@ public class MainApp extends Application {
     }
 
     public void addDemoTimes() {
+        //loads sample times for pay period 5/2 - 5/8, which would be the most recently closed pay period as of estimated project grading time
         Employee entryEmployee = company.employees.get(2);
         entryEmployee.setTimePunch(LocalDate.of(2026, 04, 27), 6.5);
         entryEmployee.setTimePunch(LocalDate.of(2026, 04, 28), 6.5);

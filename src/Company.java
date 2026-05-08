@@ -38,6 +38,10 @@ class Company {
         activeUser = authenticatedUser;
     }
 
+    public void setPayrollProcessing(Boolean processingStatus) {
+        payrollProcessing = processingStatus;
+    }
+
     //getters
     public String getName() {
         return name;
@@ -47,13 +51,13 @@ class Company {
 
     public int getEmployeeCount() {return employeeCount;}
 
-    public Collection<Employee> getEmployees() {
-        return employees.values();
-    }
+    public Collection<Employee> getEmployees() {return employees.values();}
 
     public Collection<PayCheck> getinProcessChecks() {
         return inProcessChecks.values();
     }
+
+    public boolean getPayrollProcessing() {return payrollProcessing;}
 
     //doer functions
     public String createEmailAddress(String firstName, String lastName, int employeeID) {
@@ -123,6 +127,7 @@ class Company {
 
     //process payroll
     public void processPayroll() {
+        setPayrollProcessing(true);
         for(int i : employees.keySet()) {
             if(!employees.get(i).getActive()) {
                 continue;
@@ -133,6 +138,7 @@ class Company {
                 increaseCheckNumber();
             }
         }
+        setPayrollProcessing(false);
 
     }
 

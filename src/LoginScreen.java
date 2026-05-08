@@ -18,7 +18,7 @@ public class LoginScreen {
         Label passwordLabel = new Label("Enter your password:");
         PasswordField passwordField = new PasswordField();
 
-        //buttons
+        //buttons - after entering login credentials, user must select login type
         Button loginAdminButton = new Button("Login as Admin");
         Button loginEmployeeButton = new Button("Login as Employee");
         Button exitButton = new Button("Exit");
@@ -26,11 +26,14 @@ public class LoginScreen {
         loginAdminButton.setOnAction(e -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
+            //verifies if user has entered valid admin credentials
             User adminUser = AuthenticationManager.authenticateAdmin(username, password);
             if(adminUser != null) {
+                //if validated, user moves to admin main menu
                 app.showAdminMainMenu();
             }
             else{
+                //if not validated, user sees invalid message and can exit or return to the login screen
                 app.showNoAccess();
             }
         });
@@ -38,12 +41,15 @@ public class LoginScreen {
         loginEmployeeButton.setOnAction(e -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
+            //verifies if user has entered valid employee credentials
             User employeeUser = AuthenticationManager.authenticateEmployee(username, password);
             if(employeeUser != null) {
+                //if validated, user is set as company's active user, which is used to limit employee actions to logged in user's information
                 company.setActiveUser(employeeUser);
                 app.showEmployeeMainMenu();
             }
             else{
+                //if not validated, user sees invalid message and can exit or return to the login screen
                 app.showNoAccess();
             }
         });
