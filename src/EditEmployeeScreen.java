@@ -1,9 +1,6 @@
 import javafx.scene.Parent;
 import java.time.LocalDate;
 import java.time.Period;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -15,9 +12,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+//accessible for all employees by admin user
+//called from AdminMainMenuScreen when user clicks editEmployeeButton
+//takes a sender flag to direct flow after actions are complete
 public class EditEmployeeScreen {
     public Parent getView(MainApp app, Company company, Employee editEmployee) {
-        //employee data fields
+        //employee data fields - filled with current information for selected employee on load; all editable
         Label firstNameLabel = new Label("First Name:");
         TextField firstNameField = new TextField();
         firstNameField.setText(editEmployee.getFirstName());
@@ -101,6 +101,8 @@ public class EditEmployeeScreen {
         Button submitButton = new Button("Submit Changes");
         Button deleteButton = new Button("Delete Employee");
 
+        //re-sets all fields with entered information and calls employee setter functions to update object
+        //includes data validation
         submitButton.setOnAction(e -> {
             editEmployee.setFirstName(firstNameField.getText());
             editEmployee.setMiddleName(middleNameField.getText());

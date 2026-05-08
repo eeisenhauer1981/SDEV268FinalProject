@@ -1,9 +1,6 @@
 import javafx.scene.Parent;
 import java.time.LocalDate;
 import java.time.Period;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -15,6 +12,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+//screen with controls to add new employee
+//called only from AdminMainMenuScreen when addEmployeeButton is clicked
 public class AddEmployeeScreen {
 
     public Parent getView(MainApp app, Company company) {
@@ -84,6 +83,7 @@ public class AddEmployeeScreen {
         Button submitButton = new Button("Submit");
 
         submitButton.setOnAction(e -> {
+            //clicking submit button sets employee fields with data validation
             String firstName = firstNameField.getText();
             String middleName = middleNameField.getText();
             String lastName = lastNameField.getText();
@@ -137,6 +137,7 @@ public class AddEmployeeScreen {
             }
             String medicalCoverageType = medicalCoverageBox.getValue();
 
+            //once fields are set, creates a new Employee and adds it to the company employees HashMap
             company.createNewEmployee(
                 firstName,
                 middleName,
@@ -158,6 +159,7 @@ public class AddEmployeeScreen {
                 dependents,
                 medicalCoverageType);
             
+            //after adding employee, success screen is displayed, giving user option to return to menu or exit program
             app.showSuccessfulAdminAction("Employee successfully added");
         });
 

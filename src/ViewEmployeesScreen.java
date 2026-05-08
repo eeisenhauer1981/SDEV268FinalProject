@@ -4,11 +4,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ScrollPane;
 
+//outputs a list of all employees and demographic and payroll information
+//called from AdminMainMenuScreen when user clicks viewEmployeesButton
 public class ViewEmployeesScreen {
     public Parent getView(MainApp app, Company company) {
 
         Label title = new Label("Employee List");
 
+        //loops through company's employees list and outputs employee information
         VBox employeeList = new VBox(5);
         for (Employee emp : company.getEmployees()) {
             Label empLabel = new Label(emp.getEmployeeInfo());

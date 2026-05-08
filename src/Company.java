@@ -5,16 +5,18 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+//stores company information, employees and paychecks
+//functions for adding employees, maintaining employee information, and processing payroll
 class Company {
     String name;
-    int checkNumber;
-    int employeeCount;
-    boolean payrollProcessing;
-    User activeUser;
+    int checkNumber;    //stores next check number to be assigned; increases by 1 each time a new paycheck is added to inProcessChecks
+    int employeeCount;  //stores current employee count; increases by 1 when new employee is initiated to assign next employee ID
+    boolean payrollProcessing;  //true if payroll is in process to prevent time edits
+    User activeUser;    //logged in user; used to validate access to employee information
     Dates dates;
     HashMap<Integer, Employee> employees = new HashMap<>();
-    HashMap<Integer, PayCheck> inProcessChecks = new HashMap<>();
-    HashMap<Integer, PayCheck> paychecks = new HashMap<>();
+    HashMap<Integer, PayCheck> inProcessChecks = new HashMap<>();   //temporary map for new PayChecks before they are approved
+    HashMap<Integer, PayCheck> paychecks = new HashMap<>(); //approved paycheck records
 
     //Constructor
     public Company(String newName, Dates newDates){
@@ -26,26 +28,16 @@ class Company {
     }
 
     //setters
-    public void increaseCheckNumber() {
-        checkNumber = checkNumber + 1;
-    }
+    public void increaseCheckNumber() {checkNumber = checkNumber + 1;}
 
-    public void increaseEmployeeCount() {
-        employeeCount = employeeCount +1;
-    }
+    public void increaseEmployeeCount() {employeeCount = employeeCount +1;}
 
-    public void setActiveUser(User authenticatedUser) {
-        activeUser = authenticatedUser;
-    }
+    public void setActiveUser(User authenticatedUser) {activeUser = authenticatedUser;}
 
-    public void setPayrollProcessing(Boolean processingStatus) {
-        payrollProcessing = processingStatus;
-    }
+    public void setPayrollProcessing(Boolean processingStatus) {payrollProcessing = processingStatus;}
 
     //getters
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
     public int getCheckNumber() {return checkNumber;}
 
@@ -53,9 +45,7 @@ class Company {
 
     public Collection<Employee> getEmployees() {return employees.values();}
 
-    public Collection<PayCheck> getinProcessChecks() {
-        return inProcessChecks.values();
-    }
+    public Collection<PayCheck> getinProcessChecks() {return inProcessChecks.values();}
 
     public boolean getPayrollProcessing() {return payrollProcessing;}
 
@@ -86,6 +76,7 @@ class Company {
         int newDependents,
         String newMedicalCoverage){
         
+            //increases current employee count by 1 to include new employee and assign employee ID
             increaseEmployeeCount();
             String newEmailAddress = createEmailAddress(newFirstName, newLastName, getEmployeeCount());
 
@@ -113,17 +104,13 @@ class Company {
                 newMedicalCoverage,
                 newEmailAddress
             );
-        //call function to add newEmployee to company's employee HashMap
+        //add newEmployee to company's employees HashMap
         addEmployee(getEmployeeCount(), newEmployee);
     }
     
-    public void addEmployee(int currEmployeeNumber, Employee newEmployee) {
-        employees.put(currEmployeeNumber, newEmployee);
-    }
+    public void addEmployee(int currEmployeeNumber, Employee newEmployee) {employees.put(currEmployeeNumber, newEmployee);}
 
-    public Employee employeeSearch(int searchID) {
-        return employees.get(searchID);
-    }
+    public Employee employeeSearch(int searchID) {return employees.get(searchID);}
 
     //process payroll
     public void processPayroll() {
@@ -142,20 +129,20 @@ class Company {
 
     }
 
-    public PayCheck calculatePayCheck(Employee payEmployee) {
-        return new PayCheck(payEmployee, this, dates);
-    }
+    //creates a new paycheck
+    public PayCheck calculatePayCheck(Employee payEmployee) {return new PayCheck(payEmployee, this, dates);}
 
-    public void addPayCheckInProcess(int checkNumber, PayCheck newPaycheck){
-        inProcessChecks.put(checkNumber, newPaycheck);
-    }
+    //adds new paycheck to temporary paycheck map
+    public void addPayCheckInProcess(int checkNumber, PayCheck newPaycheck){inProcessChecks.put(checkNumber, newPaycheck);}
 
+    //creates file of approved paychecks and adds approved paychecks to permanent paycheck map
     public void addApprovedPayChecks() {
         printerPayCheckFile();
         paychecks.putAll(inProcessChecks);
         inProcessChecks.clear();
     }
 
+    //creates paycheck file
     public void printerPayCheckFile() {
         String fileName = name+ "_" + LocalDate.now() + "_Paychecks.txt";
 

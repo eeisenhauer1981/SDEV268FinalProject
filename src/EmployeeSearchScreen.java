@@ -4,6 +4,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+//takes employeeID as input and returns an Employee object for other actions
+//called from AdminMainMenu when user clicks editEmployeeButton, editTimeCardButton, or editPTOButton
+//takes a sender flag to direct flow after actions are complete
 public class EmployeeSearchScreen {
     public Parent getView(MainApp app, Company company, String sender) {
 
@@ -20,6 +23,7 @@ public class EmployeeSearchScreen {
             int searchID = Integer.parseInt(enterIDField.getText());
             Employee foundEmployee = company.employeeSearch(searchID);
 
+            //uses sender to determine which screen to show next
             if(sender.equals("EditInfo")) {
                 app.showEditEmployee(foundEmployee);
             }

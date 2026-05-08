@@ -1,9 +1,10 @@
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+//message screen when an admin user successfully completes an action
+//user has option to return to Admin main menu to complete more actions or exit the program
 public class SuccessfulAdminActionScreen {
     public Parent getView(MainApp app, String message) {
         //no access message

@@ -4,6 +4,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ScrollPane;
 
+//shows an estimated calculated paycheck for current pay period
+//called from EmployeeMainMenuScreen if user clicks calculatePayButton
 public class PreviewPaycheckScreen {
     public Parent getView(MainApp app, PayCheck previewPayCheck) {
 

@@ -1,9 +1,10 @@
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+//menu for admin users to select actions
+//called from LoginScreen when user enters successful admin credentials and clicks loginAdminButton
 public class AdminMainMenuScreen {
     public Parent getView(MainApp app, Company company) {
 
@@ -18,11 +19,11 @@ public class AdminMainMenuScreen {
         Button editEmployeeButton = new Button("Edit Employee Information");
         Button editTimeCardButton = new Button("Edit Employee Time Card");
         Button editPTOButton = new Button("Edit Employee PTO");
-        Button reviewPayrollButton = new Button("Review Employee Payroll Information");
         Button processPayrollButton = new Button("Process Payroll");
         Button viewAppInfoButton = new Button("Payroll App Information");
         Button exitButton = new Button("Exit");
 
+        //actions for each button
         viewEmployeesButton.setOnAction(e -> {
             app.showViewEmployees();
         });
@@ -32,22 +33,22 @@ public class AdminMainMenuScreen {
         });
 
         editEmployeeButton.setOnAction(e -> {
+            //sends EditInfo so EmployeeSearchScreen knows to direct flow to EditEmployeeScreen after employee is found
             app.showEmployeeSearch("EditInfo");
         });
 
         editTimeCardButton.setOnAction(e -> {
+            //sends EditTime so EmployeeSearchScreen knows to direct flow to EditTimeCardScreen after employee is found
             app.showEmployeeSearch("EditTime");
         });
 
         editPTOButton.setOnAction(e -> {
+            //sends EditPTO so EmployeeSearchScreen knows to direct flow to EditPTOScreen after employee is found
             app.showEmployeeSearch("EditPTO");
         });
 
-        reviewPayrollButton.setOnAction(e -> {
-            app.showReviewPayroll();
-        });
-
         processPayrollButton.setOnAction(e -> {
+            //processPayroll runs processPayroll() then directs flow to ReviewPayrollScreen, where payroll can be approved
             company.processPayroll();
             app.showReviewPayroll();
         });
@@ -68,7 +69,6 @@ public class AdminMainMenuScreen {
             editEmployeeButton,
             editTimeCardButton,
             editPTOButton,
-            reviewPayrollButton,
             processPayrollButton,
             viewAppInfoButton,
             exitButton

@@ -3,6 +3,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+//message screen if user can't be validated
+//called from LoginScreen when user clicks loginAdminButton or loginEmployeeButton and user can't be authenticated
 public class NoAccessScreen {
     public Parent getView(MainApp app) {
 

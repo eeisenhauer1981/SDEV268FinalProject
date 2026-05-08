@@ -5,6 +5,9 @@ import java.util.SortedMap;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
+//stores employee demographic information
+//stores time card and PTO information
+//functions for setting and getting employee info, hours worked, and PTO
 class Employee {
     private int employeeID;
     private String firstName;
@@ -31,7 +34,7 @@ class Employee {
     private TreeMap<LocalDate, Double> timeClock = new TreeMap<>();
     private TreeMap<LocalDate, Integer> PTOList = new TreeMap<>();
 
-    //constructor with parameters
+    //constructor
     public Employee(
         int employeeCount,
         String newFirstName,
@@ -119,13 +122,9 @@ class Employee {
 
     public void setMedicalCoverageType(String medicalCoverageType) {this.medicalCoverageType = medicalCoverageType;}
 
-    public void setTimePunch(LocalDate punchDate, Double hoursWorked) {
-        timeClock.put(punchDate, hoursWorked);
-    }
+    public void setTimePunch(LocalDate punchDate, Double hoursWorked) {timeClock.put(punchDate, hoursWorked);}
 
-    public void setPTO(LocalDate dateOff, int countDayOff) {
-        PTOList.put(dateOff, countDayOff);
-    }
+    public void setPTO(LocalDate dateOff, int countDayOff) {PTOList.put(dateOff, countDayOff);}
 
     //getter functions 
     public int getEmployeeID() {return employeeID;}
@@ -144,6 +143,7 @@ class Employee {
 
     public boolean getActive() {return this.active;}
 
+    //used for employee info output string
     public String getActiveString() {
         if(active) {
             return "Active";
@@ -167,6 +167,7 @@ class Employee {
 
     public String getAddress2() {return this.address2;}
 
+    //combines address1 and address2 lines with appropriate commas
     public String getFullAddress() {
         if(address2.isBlank()) {
             return address1;
@@ -190,6 +191,7 @@ class Employee {
 
     public Role getRole() {return this.role;};
 
+    //selects timeClock entries for only relevant dates in pay period for calculating paycheck
     public SortedMap<LocalDate, Double> getHoursWorked() { 
         LocalDate endDate = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
         LocalDate startDate = endDate.plusDays(-7);
@@ -197,6 +199,7 @@ class Employee {
         return hoursWorked;
     }
 
+    //selects PTOList entries for only relevant dates in pay period for calculating paycheck
     public SortedMap<LocalDate, Integer> getPTO() { 
         LocalDate endDate = LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
         LocalDate startDate = endDate.plusDays(-7);
@@ -204,6 +207,7 @@ class Employee {
         return weeklyPTO;
     }
 
+    //String output to display on ViewEmployeesScreen
     public String getEmployeeInfo() {
         String empStatus = getActiveString();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");

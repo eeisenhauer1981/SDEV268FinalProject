@@ -1,3 +1,6 @@
+
+//class for creating new user credentials
+//functions to return user information to other classes
 public class User {
     private String username;
     private String hashPassword;

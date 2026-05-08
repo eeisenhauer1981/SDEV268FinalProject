@@ -1,9 +1,10 @@
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+//message screen when an employee user successfully completes an action
+//user has option to return to Employee main menu to complete more actions or exit the program
 public class SuccessfulEmployeeActionScreen {
     public Parent getView(MainApp app, String message) {
         //no access message

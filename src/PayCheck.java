@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.util.SortedMap;
 import java.text.DecimalFormat;
 
+//stores paycheck details
+//functions to calculate pay
 class PayCheck {
     private int checkNumber;
     private LocalDate checkDate;
@@ -18,6 +20,7 @@ class PayCheck {
     private Employee payTo;
     private String payFrom;
 
+    //constructor
     public PayCheck(Employee employee, Company company, Dates dates) {
         payTo = employee;
         payFrom = company.getName();
@@ -26,6 +29,7 @@ class PayCheck {
         calculatePayCheck();        
     }
 
+    //getter
     public int getCheckNumber() {return checkNumber;}
 
     public void calculatePayCheck() {
@@ -55,30 +59,25 @@ class PayCheck {
     //calculate deductions
     public double calculateStateTax(double preTaxPay) {
         final double STATE_TAX_RATE = .0315;
-
         return STATE_TAX_RATE * preTaxPay;
     }
 
     public double calculateFederalTax(double preTaxPay) {
         final double FEDERAL_TAX_RATE = .0765;
-
         return FEDERAL_TAX_RATE * preTaxPay;
     }
 
     public double calculateSocialSecurity(double preTaxPay) {
         final double SOCIAL_SECURITY_RATE = .062;
-
         return SOCIAL_SECURITY_RATE * preTaxPay;
     }
 
     public double calculateMedicare(double preTaxPay) {
         final double MEDICARE_RATE = .0145;
-
         return MEDICARE_RATE * preTaxPay;
     }
 
-    public double calculateMedicalDeduction(Employee payTo) {
-        
+    public double calculateMedicalDeduction(Employee payTo) {        
         if (payTo.getMedicalCoverageType().equals("Single")) {
             return 50.0;
         } 
@@ -94,21 +93,25 @@ class PayCheck {
         double payRate = payTo.getBasePay();
         double totalPay = 0.0;
 
+        //loops through employee's timeClock subset for the current pay period, calculates daily pay, and adds up to return total pay
         for(LocalDate i : weeklyHours.keySet()) {
-            
+            //checks to see if there is an hour entry for the day            
             if(!weeklyHours.containsKey(i)) {
                 continue;
             }
+            //checks to see if straight pay (8hour or less day not Saturday)
             else if(weeklyHours.get(i) <= 8 && i.getDayOfWeek() != DayOfWeek.SATURDAY) {
                 double dailyPay = weeklyHours.get(i) * payRate;
                 totalPay = totalPay + dailyPay;
             }
+            //triggers if overtime qualified (more than 8 hours not on saturday)
             else if (weeklyHours.get(i) > 8 && i.getDayOfWeek() != DayOfWeek.SATURDAY) {
                 double overtimeHours = weeklyHours.get(i) - MAX_REGULAR_HOURS;
                 double overtimePay = calculateOvertimePay(overtimeHours, payRate);
                 double dailyPay = weeklyHours.get(i) * payRate;
                 totalPay = totalPay + dailyPay + overtimePay;
             }
+            //triggers if Saturday hours
             else {
                 double overtimeHours = weeklyHours.get(i);
                 double overtimePay = calculateOvertimePay(overtimeHours, payRate);
@@ -129,6 +132,7 @@ class PayCheck {
         SortedMap <LocalDate, Integer> PTODays = payTo.getPTO();
         int weeklyPTODays = 0;
 
+        //loops through employees PTOList subset for current pay period to determine if there are any PTO days
         for(LocalDate i : PTODays.keySet()) {
             if(!PTODays.containsKey(i)) {
                 continue;
@@ -141,18 +145,22 @@ class PayCheck {
         double payRate = payTo.getBasePay();
 
         if(weeklyPTODays == 0) {
+            //if no PTO, employee is paid full week
             return payRate / 52;
         }
         else {
+            //if PTO, daily rate is calculated
             double dailyPay = payRate / 52 / 5;
+            //calculates pay for PTO days
             double PTOPay = dailyPay * weeklyPTODays;
+            //calculates pay for non-PTO days
             int workDays = 5 - weeklyPTODays;
             double workDayPay = dailyPay * workDays;
             return workDayPay + PTOPay;
         }
     }
 
-    //output paycheck info
+    //string formatted for screen output
     public String getPaycheckInfo(){
         DecimalFormat df = new DecimalFormat("#,###.##");
         return  payFrom + " Check Number: " + checkNumber + "\n"
@@ -168,6 +176,7 @@ class PayCheck {
                 + "Net Pay: $" + df.format(netPay) + "\n";
     }
 
+    //string formatted for file output
     public String savePaycheckInfo(){
         DecimalFormat df = new DecimalFormat("#,###.##");
         return  checkNumber + ","

@@ -1,10 +1,10 @@
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-
+//menu for admin users to select actions
+//called from LoginScreen when user enters successful employee credentials and clicks loginEmployeeButton
 public class EmployeeMainMenuScreen {
     public Parent getView(MainApp app, Company company, Dates dates) {
 
@@ -25,7 +25,9 @@ public class EmployeeMainMenuScreen {
                 app.showPayrollInProcess();
             }
             else {
+                //verifies current employee logged in
                 Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+                //sends identity of employee to edit and sender identification so EditTimeCardScreen can direct flow correctly
                 app.showEditTimeCard(foundEmployee, "Employee");
             }
         });
@@ -36,13 +38,17 @@ public class EmployeeMainMenuScreen {
                 app.showPayrollInProcess();
             }
             else {
+                //verifies current employee logged in
                 Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+                //sends identity of employee to edit and sender identification so EditTimeCardScreen can direct flow correctly
                 app.showEditPTO(foundEmployee, "Employee");
             }
         });
 
         calculatePayButton.setOnAction(e -> {
+            //verifies current employee logged in
             Employee foundEmployee = company.employeeSearch(company.activeUser.getEmployeeID());
+            //processes a single paycheck and outputs pay info on PreviewPaycheckScreen
             PayCheck samplePaycheck = new PayCheck (foundEmployee, company, dates);
             app.showPreviewPaycheck(samplePaycheck);
         });

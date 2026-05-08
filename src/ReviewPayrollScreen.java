@@ -4,11 +4,14 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ScrollPane;
 
+//displays paychecks for all employees for current pay period
+//called from AdminMainMenuScreen when user clicks processPayrollButton
 public class ReviewPayrollScreen {
     public Parent getView(MainApp app, Company company) {
 
         Label title = new Label("Paychecks");
 
+        //loops through all paychecks that were just added to inProcessChecks map and outputs information
         VBox payCheckList = new VBox(5);
         for (PayCheck check : company.getinProcessChecks()) {
             Label checkLabel = new Label(check.getPaycheckInfo());

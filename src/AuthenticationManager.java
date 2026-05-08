@@ -2,6 +2,8 @@ import java.util.HashMap;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+//class for creating and storing username/hashed password combinations
+//authenticates users at login
 public class AuthenticationManager {
 
     //list of credentials. key is username(employee email) and value is User object

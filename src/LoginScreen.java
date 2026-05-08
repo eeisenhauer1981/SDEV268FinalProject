@@ -5,6 +5,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 
+//takes username and password input, authenticates, and provides or denies access to menus
+//launches at program start
 public class LoginScreen {
 
     public Parent getView(MainApp app, Company company) {

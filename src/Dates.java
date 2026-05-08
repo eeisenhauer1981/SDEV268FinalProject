@@ -55,6 +55,8 @@ class Dates {
     }
 
     //date validation functions
+
+    //THIS ONE IS BEING USED
     public boolean isValidTimeEntryDate(LocalDate dateToEnter){
         setLastPayPeriod();
 

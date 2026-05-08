@@ -3,6 +3,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+//message if payroll is in process and time cannot be edited
+//called from EmployeeMainMenu if employee clicks editTimeCardButton or editPTOButton and company.payrollProcessing is true
 public class PayrollInProcessScreen {
     public Parent getView(MainApp app) {
 

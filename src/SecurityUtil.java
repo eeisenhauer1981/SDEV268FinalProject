@@ -1,6 +1,7 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+//security class for hashing password
 public class SecurityUtil {
 
     public static String hashMD5(String input) {

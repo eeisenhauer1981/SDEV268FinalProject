@@ -1,8 +1,6 @@
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 
 public class AppInfoScreen {
@@ -14,7 +12,7 @@ public class AppInfoScreen {
         //fields for user input
         Label appNameLabel = new Label("LearnEx Payroll Calculator");
 
-        Label versionLabel = new Label("v8.1");
+        Label versionLabel = new Label("v8.3");
 
 
         //buttons
