@@ -1,12 +1,13 @@
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.SortedMap;
 import java.text.DecimalFormat;
 
 //stores paycheck details
 //functions to calculate pay
 class PayCheck {
-    private int checkNumber;
+    private int payID;
     private LocalDate checkDate;
     private double dependentStipend;
     private double stateTax;
@@ -22,15 +23,24 @@ class PayCheck {
 
     //constructor
     public PayCheck(Employee employee, Company company, Dates dates) {
+        payID = setPayID(employee);
         payTo = employee;
         payFrom = company.getName();
-        checkNumber = company.getCheckNumber();
         checkDate = dates.getCurrentPayDate();
         calculatePayCheck();        
     }
 
-    //getter
-    public int getCheckNumber() {return checkNumber;}
+    //setter
+    public int setPayID(Employee employee) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
+        String payDate = LocalDate.now().format(formatter);
+        String employeeID = String.valueOf(employee.getEmployeeID());
+        String payIDString = employeeID + payDate;
+        return Integer.parseInt(payIDString);
+
+    }
+
+    public int getPayID() {return payID;}
 
     public void calculatePayCheck() {
         dependentStipend = calculateDependentStipend(payTo);
@@ -88,6 +98,7 @@ class PayCheck {
 
     //calculate work pay for hourly
     public double calculateHourlyWorkPay(Employee payTo) {
+        System.out.println("Employee: " + payTo.getLastName());
         final double MAX_REGULAR_HOURS = 8;
         SortedMap <LocalDate, Double> weeklyHours = payTo.getHoursWorked();
         double payRate = payTo.getBasePay();
@@ -95,12 +106,8 @@ class PayCheck {
 
         //loops through employee's timeClock subset for the current pay period, calculates daily pay, and adds up to return total pay
         for(LocalDate i : weeklyHours.keySet()) {
-            //checks to see if there is an hour entry for the day            
-            if(!weeklyHours.containsKey(i)) {
-                continue;
-            }
             //checks to see if straight pay (8hour or less day not Saturday)
-            else if(weeklyHours.get(i) <= 8 && i.getDayOfWeek() != DayOfWeek.SATURDAY) {
+            if(weeklyHours.get(i) <= 8 && i.getDayOfWeek() != DayOfWeek.SATURDAY) {
                 double dailyPay = weeklyHours.get(i) * payRate;
                 totalPay = totalPay + dailyPay;
             }
@@ -163,7 +170,7 @@ class PayCheck {
     //string formatted for screen output
     public String getPaycheckInfo(){
         DecimalFormat df = new DecimalFormat("#,###.##");
-        return  payFrom + " Check Number: " + checkNumber + "\n"
+        return  payFrom + " Pay ID: " + payID + "\n"
                 + "Pay Date: " + checkDate + "\n"
                 + "Pay To: " + payTo.getFirstName() + " " + payTo.getMiddleName() + " " + payTo.getLastName() + " " + payTo.getSuffix() + "\n"
                 + "Dependent Stipend: $" + df.format(dependentStipend) + "\n"
@@ -179,7 +186,7 @@ class PayCheck {
     //string formatted for file output
     public String savePaycheckInfo(){
         DecimalFormat df = new DecimalFormat("#,###.##");
-        return  checkNumber + ","
+        return  payID + ","
                 + checkDate + ","
                 + payTo.getFirstName() + "," 
                 + payTo.getMiddleName() + ","

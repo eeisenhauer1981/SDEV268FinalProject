@@ -9,7 +9,6 @@ import java.io.IOException;
 //functions for adding employees, maintaining employee information, and processing payroll
 class Company {
     String name;
-    int checkNumber;    //stores next check number to be assigned; increases by 1 each time a new paycheck is added to inProcessChecks
     int employeeCount;  //stores current employee count; increases by 1 when new employee is initiated to assign next employee ID
     boolean payrollProcessing;  //true if payroll is in process to prevent time edits
     User activeUser;    //logged in user; used to validate access to employee information
@@ -21,14 +20,12 @@ class Company {
     //Constructor
     public Company(String newName, Dates newDates){
         this.name = newName;
-        this.checkNumber = 1;
         this.employeeCount = 0;
         this.payrollProcessing = false;
         this.dates = newDates;
     }
 
     //setters
-    public void increaseCheckNumber() {checkNumber = checkNumber + 1;}
 
     public void increaseEmployeeCount() {employeeCount = employeeCount +1;}
 
@@ -38,8 +35,6 @@ class Company {
 
     //getters
     public String getName() {return name;}
-
-    public int getCheckNumber() {return checkNumber;}
 
     public int getEmployeeCount() {return employeeCount;}
 
@@ -121,8 +116,7 @@ class Company {
             }
             else {
                 PayCheck newPayCheck = calculatePayCheck(employees.get(i));
-                addPayCheckInProcess(newPayCheck.getCheckNumber(), newPayCheck);
-                increaseCheckNumber();
+                addPayCheckInProcess(newPayCheck.getPayID(), newPayCheck);
             }
         }
         setPayrollProcessing(false);

@@ -12,7 +12,7 @@ public class AppInfoScreen {
         //fields for user input
         Label appNameLabel = new Label("LearnEx Payroll Calculator");
 
-        Label versionLabel = new Label("v8.3");
+        Label versionLabel = new Label("v8.4");
 
 
         //buttons

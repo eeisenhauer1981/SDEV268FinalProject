@@ -205,7 +205,9 @@ public class EditEmployeeScreen {
             dependentsField,
             medicalCoverageLabel,
             medicalCoverageBox,
-            submitButton);
+            submitButton,
+            deleteButton
+        );
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(layout);
